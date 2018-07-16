@@ -81,7 +81,27 @@ class stationeryRetrievalController{
 class createStationeryRetrievalFormView{
 
 }
-@endum
+
+class createOrdersController {
+    void: homePage()
+    void: searchReorderDetailsByCategoryAndDescription(Category category, string searchTerm)
+    void: goToOrderQuantity(ReorderItemsForm items)
+    void: backToItemCatalogue(ReorderItemsForm items)
+    void: goToPlaceOrder(ReorderQuantitiesForm quantities)
+    void: backToOrderQuantity(ReorderQuantitiesForm quantities)
+    void: submitOrder(ReorderForm reorderForm)
+    void: downloadPurchaseOrders(int OrderId)
+}
+
+class viewReceivedOrdersList {
+    ' serves as back route from Received Orders Details page
+    void: viewPastReceivedOrdersList()
+    void: viewPastOrder(int orderId)
+    void: homePage()
+}
+
+class 
+@enduml
 
 
 
