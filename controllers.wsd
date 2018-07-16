@@ -2,6 +2,13 @@
 navigationController ^-- delegateAuthorityController
 navigationController ^-- appointDepartmentRepController
 navigationController ^-- changeCollecitonPointController
+navigationController ^-- manageMonthlyStockDiscrepancyController
+
+class notificationController{
+    void:createstockVoucher()
+}
+
+
 class navigationController{
     void:homePage()
 }
@@ -76,9 +83,68 @@ class changeCollectionPointView{
 }
 class stationeryRetrievalController{
     void:createStationeryRetrievalFormView()
-    void:load
+    void:createStockAdjustmentController()
+    void:loadStationeryRetrievalFormView()
+    void:submitStockRetrievalForm()
+    
+    
 }
 class createStationeryRetrievalFormView{
+
+}
+class stockAdjustmentVoucherController{
+    void:createSubmitAdjustmentView()
+    void:addvoucher()
+}
+
+
+class confirmDisbursementListController{
+    void:createDisbursementListDepartmentView()
+    void:createDisbursementListEmployeeView()
+    void:notsurewhatControllertoUseAfterClickConfirm()
+}
+class disbursementListDepartmentView{
+
+}
+class disbursementListEmployeeView{
+
+}
+
+class RequisitionTrackingController{
+    void:createTrackTheOutstandingRequisitionView()
+    void:loadTrackTheOutstandingRequisitionView()
+    void:createOrderController()
+}
+class trackTheOutstandingRequisitionView{
+
+}
+class monthlyInventoryController{
+    void:createMonthlyInventoryStatusReportView()
+    void:createMonthlyInventoryDetailsController()
+}
+class monthlyInventoryDetailsController{
+    void:createMonthlyInventoryStatusDetailsView()
+    void:submitInventoryStatus()
+}
+class MonthlyInventoryStatusReportView{
+
+}
+class MonthlyInventoryStatusDetailsView{
+
+}
+
+class manageMonthlyStockDiscrepancyController{
+    void:createManageMonthlyStockDiscrepancyView()
+    void:createPopup()
+    void:submitAdjustmentVoucher()
+    void:loadManageMonthlyStockDiscrepancyView()
+
+
+}
+class manageMonthlyStockDiscrepancyView{
+
+}
+class popupView{
 
 }
 
