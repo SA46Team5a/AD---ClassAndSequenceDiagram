@@ -19,6 +19,7 @@ class RequisitionService <<Service>> {
     ' RequisitionDetails can be retrieved from Requisition object
     ' If no unsubmitted requsition, create new Requisition object for employee
     +Requisition: getUnsubmittedRequisitionOfEmployee(Employee emp)  
+    +Requisition: getRequisitionById(int reqId)
     +List<Requisition>: getRequisitionsOfEmployee(Employee emp)
     +List<Requisition>: getSubmittedRequisitionsOfDepartment(Department dep)
     +List<Requisition>: getRequisitionsOfCategory(Category cat)
@@ -35,6 +36,7 @@ class RequisitionService <<Service>> {
     ' Loops through list and calls updateRequsitionDetail
     +void: updateRequisitionDetails(List<int> reqDetailIds, int newQuantities)
     +void: updateRequisitionDetail(int reqDetailId, int newQuantity)
+    ' At submit, call createNewRequisitionForEmployee(Employee emp)
     +void: submitRequsition(int reqId)
     +void: rejectRequisition(Requisition req)
     +void: approveRequisition(Requisition req)
@@ -117,6 +119,7 @@ class DepartmentService <<Service>> {
     +void: rescindAuthority(Authority auth)
     +void: updateDepartmentRepresentative(Department dep, Employee emp)
     +void: updateCollectionPoint(Department dep, CollectionPoint cp)
+    +void: generateNewPasscode(Department dep)
 
     --Delete--
 }

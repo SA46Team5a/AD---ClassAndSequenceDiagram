@@ -6,74 +6,6 @@ class navigationController{
     void:homePage()
 }
 
-class ViewStationeryCatalogueView{
-}
-
-class RequisitionController{
-    void:createViewStationeryCatalogueView()
-    void:requestItem(item,qty)
-    void:loadMakeStationeryRequestForm()
-    void:loadViewStationeryCatalogueView()
-    void:deleteRequestedItems()
-    void:saveChanges()
-    void:submitRequest()
-}
-
-class MakeEditStationeryRequestFormView{
-}
-class ViewPastRequestController{
-    void:createSearchRequisitionForm()
-    void:loadSearchRequisitionForm(startDate,endDate,approvalStatus)
-    void:loadViewStationeryRequestForm(ReqID)
-    void:(edit)loadMakeStationeryRequestForm(sameInRequisitonController)
-    void:deleteRequisitionForm()
-}
-class searchRequisitionFormView{
-
-}
-class ViewStationeryRequestForm{
-
-}
-
-class approveRequisitionFormController{
-    void:createApproveRequisitionFormView()
-    void:approveReq(reqID)
-    void:rejectReq(reqID)
-}
-
-class approveRequisitionFormView{
-
-}
-
-
- class delegateAuthorityController{
-    void:createDelegateAuthorityView()
-    void:confirmDelegation(empID,startDate,endDate)
-
-    void:rescindDelegation(empID)
-}
-
-class delegateAuthorityView{
-
-}
-
-class appointDepartmentRepController{
-    void:createAppointDepartmentRepView()
-    void:confirmDepartmentRep(repID)
-
-}
-
-class appointDepartmentRepView{
-
-}
-
-class changeCollecitonPointController{
-    void:confirmChangeCollectionPoint()
-}
-
-class changeCollectionPointView{
-
-}
 class stationeryRetrievalController{
     void:createStationeryRetrievalFormView()
     void:load
@@ -110,7 +42,5 @@ class submitInvoiceController <<Controller>> {
     ActionItem: viewSubmitInvoice()
     void: submitInvoice(File invoice)
 }
+
 @enduml
-
-
-

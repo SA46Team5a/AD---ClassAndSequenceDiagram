@@ -1,0 +1,8 @@
+@startuml
+class CollectionApiController <<ApiController>> {
+    List<Map<int, string>>: getEmployeesOfDepartment(int depId)
+    List<Map<int, string>>: getCategories()
+    List<Map<int, string>>: getCollectionPoints()
+    int: getCollectionPointOfDep(int depId)
+}
+@enduml

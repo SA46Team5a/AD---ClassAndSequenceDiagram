@@ -1,0 +1,117 @@
+@startuml
+'' Requisition
+'Emp and Dep Rep
+class RequisitionController{
+    ' On going to or going back to ViewStationaryCatalogue view
+    ' 2.2.1.1 View Stationary Catalogue
+    ' Find unsubmitted form and put reqId in hidden field
+    ActionResult: StationaryCatalogueView()
+    ' On clicking Add. Get request
+    void: requestItem(int itemId, int qty, int reqId) 
+    ' 2.2.1.2a Make/Edit Stationary Request Form
+    ActionResult: UnsubmittedStationaryRequestForm(int reqId)
+    void: deleteRequestedItems(int reqDetailsId)
+    void: saveChanges()
+    ' Return to EmployeeHome after request
+    ' TODO: decide on homepage
+    ActionResult: EmployeeHome()
+}
+
+' Employee and Dep Rep
+class ViewPastRequestController{
+    ' Returns all past requisition forms of loggedin Employee
+    ' 2.2.2.1 Search Requsition Form
+    ActionResult: SearchRequisitionForm()
+    void: deleteRequisitionForm(int reqId)
+
+    ' Filtering of RequisitionForms will be done dynamically at client side
+    ' void:loadSearchRequisitionForm(Date startDate,Date endDate,int approvalStatus)
+    ' 2.2.2.3 View Stationary Request Form
+    ActionResult: ProcessedStationaryRequestForm(int reqId)
+
+    ' 2.2.1.2b
+    ActionResult: EditSubmittedStationaryRequestForm(int reqId)
+    void: deleteRequestedItems(int reqDetailsId)
+
+    ' go to employee home after clicking Yes on 2.2.1.2b Popup
+    ActionResult: EmployeeHome()
+
+    ' 2.2.1.1 ViewStationaryCatalogue
+    ' pass reqId and store in hidden field
+    ActionResult: StationaryCatalogueView(int reqId)
+    void: requestItem(int itemId, int qty, int reqId) 
+}
+
+' Dep Head
+class approveRequisitionFormController <<Controller>> {
+    ' 2.2.4.1 Approve Requisition Form
+    ActionResult: ApproveRequisitionForm(Department dep)
+    void: approveReq(int reqID, string comment)
+    void: rejectReq(int reqID, string comment)
+
+    ' Upon pressing home button
+    ActionResult: DepHeadHome()
+}
+
+' Dep Head android
+class approveRequisitionFormApiController <<ApiController>> {
+    List<Requisition>: ApproveRequisitionForm(Department dep)
+    void: approveReq(int reqID, string comment)
+    void: rejectReq(int reqID, string comment)
+}
+
+' Dep Head
+class delegateAuthorityController <<Controller>> {
+    ' 2.2.6 Delegate Authority
+    ActionResult: DelegateAuthority(Department dep)
+    void: confirmDelegation(int empID, Date startDate, Date endDate)
+    void: rescindDelegation(int empID)
+
+    ' Upon pressing home button
+    ActionResult: DepHeadHome()
+}
+
+' Dep Head Android
+class delegateAuthorityApiController <<ApiController>> {
+    Authority: DelegateAuthority(Department dep)
+    void: confirmDelegation(int empID, Date startDate, Date endDate)
+    void: rescindDelegation(int empID)
+}
+
+' Dep Head
+class appointDepartmentRepController <<Controller>> {
+    ' 2.2.7 Appoint Department Rep
+    ActionResult: AppointDepartmentRep(Department dep)
+    void:confirmDepartmentRep(repID)
+
+    ' Upon pressing home button
+    ActionResult: DepHeadHome()
+}
+
+' Dep Head Android
+class appointDepartmentRepApiController <<ApiController>> {
+    ' 2.2.7 Appoint Department Rep
+    DepartmentRepresentative: AppointDepartmentRep(Department dep)
+    void: confirmDepartmentRep(int empId)
+}
+
+' Dep Representative
+class changeCollecitonPointController{
+    ' 2.2.8 Change Collection Point
+    ActionResult: ChangeCollectionPoint(Department dep)
+    void: confirmCollectionPoint(int depId) 
+
+    ' Upon pressing home button
+    ActionResult: EmployeeHome()
+}
+
+
+class stationeryRetrievalController{
+    void:createStationeryRetrievalFormView()
+    void:load
+}
+
+class createStationeryRetrievalFormView{
+
+}
+@enduml

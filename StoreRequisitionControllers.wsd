@@ -1,0 +1,29 @@
+@startuml
+'' Requisition
+' Store Clerk and Store Supervisor
+class stationeryRetrievalApiController <<ApiController>> {
+    ' GET /api/retrievalItems
+    List<RetrievalItem>: getRetrievalItems()
+    ' POST /api/raiseStockVoucher
+    void: raiseStockVoucher(int itemId, int adjustment, string reason)
+    ' POST /api/submitRetrievalForm/{storeClerkId}
+    void: submitRetrievalForm()
+}
+
+' Store Clerk
+class confirmDisbursementListController <<ApiController>> {
+    ' GET /api/disbursementDepts
+    List<Department>: getDepartmentsWithDisbursements()
+    ' GET /api/disbursementList/{deptId}
+    List<DisbursementDeptDetail>: getDisbursementList(string deptId)
+    ' POST /api/submitDisbursementList/{deptId}/{passCode}
+    ' If verify passcode fail, return false. 
+    ' Post entire form to API
+    ' TODO: Data structure need to tie down between Anthony and Benedict
+    ' 1: verify password
+    ' 2: checking quantity collected
+    ' 3: create StockVouchers if qty don't match
+    ' [{ itemId: int, qtyCollected: int, reason: string }, ...]
+    boolean: submitDisbursementList(string deptId, int passCode)
+}
+@enduml
