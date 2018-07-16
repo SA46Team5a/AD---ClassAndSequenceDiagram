@@ -11,8 +11,41 @@ class stationeryRetrievalApiController <<ApiController>> {
     void: submitRetrievalForm()
 }
 
-''Store clerk and store supervisor
+'Store clerk and store supervisor
 class monthlyInventoryController<<ApiController>>{
-    ' GET /api/
+    ' GET /api/monthlyInv/{category}
+    List<StockCountItem>: getStockCountItemsByCategory(int cat)
+    ' POST /api/monthlyInv/{empId}
+    ' TODO: discuss on data to pass over
+    ' for each item where actual stock != balance, create a new stock voucher with reason
+    void: submitStockCountItems(int empId)
+}
+
+' Store Supervisor and Store Manager
+class manageMonthlyStockDiscrepencyController <<Controller>> {
+    ' Display all unsubmitted stock vouchers. Note that stock vouchers are displayed 
+    ' based on the user's role
+    ' If user.role = "Store Supervisor", show vouchers where total value < $250
+    ' Else If user.role = "Store Manager", show vouchers where total value >= $250
+    ' When returning view, dyanamically set where the destination after submit is 
+    ' given the role
+    ActionResult: DiscrepancyItems()
+
+    ' Process for stock voucher submission before proceeding to Home Screen
+    ActionResult: StoreSupervisorHome()
+    ActionResult: StoreManagerHome()
+}
+
+class manageMonthlyStockDiscrepencyApiController <<ApiController>> {
+    ' Display all unsubmitted stock vouchers. Note that stock vouchers are displayed 
+    ' based on the user's role
+    ' If user.role = "Store Supervisor", show vouchers where total value < $250
+    ' Else If user.role = "Store Manager", show vouchers where total value >= $250
+    ' When returning view, dyanamically set where the destination after submit is 
+    ' given the role
+    List<StockVoucher>: getStockVouchers()
+
+    ' Process stock voucher submission 
+    void: submitVouchers()
 }
 @enduml
