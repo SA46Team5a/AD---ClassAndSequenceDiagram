@@ -26,15 +26,4 @@ class confirmDisbursementListController <<ApiController>> {
     ' [{ itemId: int, qtyCollected: int, reason: string }, ...]
     boolean: submitDisbursementList(string deptId, int passCode)
 }
-'' Department Rep
-class viewEmpDisbursementListController<<ApiController>>{
-    ' GET /api/requisitionEmp
-    List<Employee>: getRequisitionWithEmployees(string deptId)
-    ' GET /api/requisitionDetailsByempId/{empId}
-    List<RequisitionDetails>: getrequisitionDetailsByempId(int empId)
-
-}
-class monthlyInventoryController<<ApiController>>{
-    '
-}
 @enduml
