@@ -19,7 +19,7 @@ class RequisitionService <<Service>> {
     ' RequisitionDetails can be retrieved from Requisition object
     ' If no unsubmitted requsition, create new Requisition object for employee
     +Requisition: getUnsubmittedRequisitionOfEmployee(Employee emp)  
-    +List<Requisition>: getRequisitionsOfEmployees(Employee emp)
+    +List<Requisition>: getRequisitionsOfEmployee(Employee emp)
     +List<Requisition>: getSubmittedRequisitionsOfDepartment(Department dep)
     +List<Requisition>: getRequisitionsOfCategory(Category cat)
     +List<Requisition>: getAllApprovedUnretrievedRequisitions()
@@ -28,8 +28,8 @@ class RequisitionService <<Service>> {
     +List<OutstandingRequisitionItems>: getOutstandingRequisitionItems()
 
     --Create--
-    +Requisition: createNewRequisition()
-    +void: addNewRequisitionDetail(Requisition req)
+    +Requisition: createNewRequisitionForEmployee(Employee emp)
+    +void: addNewRequisitionDetail(Requisition req, RequisitionDetail rd)
 
     --Update--
     ' Loops through list and calls updateRequsitionDetail
