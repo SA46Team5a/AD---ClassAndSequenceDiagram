@@ -82,25 +82,34 @@ class createStationeryRetrievalFormView{
 
 }
 
-class createOrdersController {
-    void: homePage()
-    void: searchReorderDetailsByCategoryAndDescription(Category category, string searchTerm)
-    void: goToOrderQuantity(ReorderItemsForm items)
-    void: backToItemCatalogue(ReorderItemsForm items)
-    void: goToPlaceOrder(ReorderQuantitiesForm quantities)
-    void: backToOrderQuantity(ReorderQuantitiesForm quantities)
-    void: submitOrder(ReorderForm reorderForm)
-    void: downloadPurchaseOrders(int OrderId)
+' Ordering Package
+class createOrdersController <<Controller>> {
+    ActionItem: homePage()
+    ActionItem: searchReorderDetailsByCategoryAndDescription(Category category, string searchTerm)
+    ActionItem: goToOrderQuantity(ReorderItemsForm items)
+    ActionItem: backToItemCatalogue(ReorderItemsForm items)
+    ActionItem: goToPlaceOrder(ReorderQuantitiesForm quantities)
+    ActionItem: backToOrderQuantity(ReorderQuantitiesForm quantities)
+    ActionItem: submitOrder(ReorderForm reorderForm)
+    ActionItem: downloadPurchaseOrders(int OrderId)
 }
 
-class viewReceivedOrdersList {
+class viewReceivedOrdersListController <<Controller>> {
     ' serves as back route from Received Orders Details page
-    void: viewPastReceivedOrdersList()
-    void: viewPastOrder(int orderId)
-    void: homePage()
+    ActionItem: viewPastReceivedOrdersList()
+    ActionItem: viewPastOrder(int orderId)
+    ActionItem: homePage()
 }
 
-class 
+class restockInventoryController <<ApiController>> {
+    List<OrderSupplierDetails>: getOrderSupplierDetails(int orderId, int supplierId)
+    void: updateOrderSupplierDetail(int orderSupplierDetailId, int quantityReceived)
+}
+
+class submitInvoiceController <<Controller>> {
+    ActionItem: viewSubmitInvoice()
+    void: submitInvoice(File invoice)
+}
 @enduml
 
 
