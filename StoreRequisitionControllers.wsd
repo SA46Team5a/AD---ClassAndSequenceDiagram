@@ -26,6 +26,7 @@ class confirmDisbursementListController <<ApiController>> {
     ' [{ itemId: int, qtyCollected: int, reason: string }, ...]
     boolean: submitDisbursementList(string deptId, int passCode)
 }
+
 '' Department Rep
 class viewEmpDisbursementListController<<ApiController>>{
     ' GET /api/requisitionEmp
@@ -34,7 +35,13 @@ class viewEmpDisbursementListController<<ApiController>>{
     List<RequisitionDetails>: getrequisitionDetailsByempId(int empId)
 
 }
-class monthlyInventoryController<<ApiController>>{
-    '
+
+' Store Clerk and Store Supervisor
+class trackOutstandingRequisitionController <<Controller>> {
+    ' 2.2.10 Track the outstanding requisition
+    ActionResult: TrackOutsandingRequsition()
+    
+    ' Redirect to ReorderController
+    void: goToReorderController()
 }
 @enduml

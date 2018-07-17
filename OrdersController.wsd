@@ -1,0 +1,52 @@
+@startuml
+'' Ordering Package
+' Store Clerk and Store Supervisor(?)
+class createOrdersController <<Controller>> {
+    ' 2.3.1 ItemCatalogue
+    ' itemIds can be null. If not null, change the text of Add buttons for items in the itemIds to Added
+    ActionResult: ItemCatalogue(List<int> itemIds)
+    ' On click search. Can consider either AJAX, or just filter based on data passed to frontend
+    List<ReorderDetail>: getReorderDetailsByCategoryAndDescription(int catId, string searchTerm)
+
+    ' 2.3.2 OrderQuantity
+    ' Generate items to display based in itemIds
+    ActionResult: OrderQuantity(List<int> itemIds)
+
+    ' 2.3.3 PlaceOrder
+    ActionResult: PlaceOrder(Map<int, int> itemIdsAndQuantities)
+
+    ' 2.3.4 OrderSummary
+    ' TODO: Jack and Khim Yang to discuss on how to pass data from controller to service
+    ActionResult: OrderSummary(ReorderForm reorderForm)
+    File: downloadPurchaseOrders(int OrderId)
+
+    ActionResult: StoreClerkHome()
+    ActionResult: StoreSupervisorHome()
+}
+
+' Store Clerk and Store Supervisor
+class restockInventoryController <<ApiController>> {
+    ' if orderid and supplierid is null, return first undelivered orderSuppplierDetail
+    List<OrderSupplierDetail>: getOrderSupplierDetails(int orderId, int supplierId)
+    void: updateOrderSupplierDetail(int orderSupplierDetailId, int quantityReceived)
+}
+
+' Store Clerk
+class submitInvoiceController <<Controller>> {
+    ' 2.3.6 SubmitInvoice
+    ActionResult: SubmitInvoice()
+    void: submitInvoice(File invoice)
+}
+
+' Store Clerk, Store Manager and Store Supervisor
+class viewReceivedOrdersListController <<Controller>> {
+    ' 2.3.7 ReceivedPurchaseOrdersList
+    ActionResult: ReceivedPurchaseOrdersList()
+
+    ' 2.3.8 ReceivedPurchaseOrdersDetails
+    ' on click View Details buttons
+    ActionResult: ReceivedPurchaseOrdersDetails(int orderId)
+
+    ActionResult: homePage()
+}
+@enduml
