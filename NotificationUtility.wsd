@@ -1,0 +1,37 @@
+@startuml
+class DepartmentEmailNotificationUtility <<Utility>> {
+    ' 2.2.1 
+    void: submitRequisitionForApprovalToDeptHead(Employee emp, Requisition req)
+
+    ' 2.2.5 Notify approval/rejection of request
+    void: notifyApprovalStatusOfRequsition(Employee emp, Requisition req, bool isApproved)
+
+    ' 2.2.6 Send email to Delegated Authority
+    void: informDelegationOfAuthority(Employee emp, Authority auth)
+    void: informUpdateToAuthority(Employee emp, Authority auth)
+    void: informRescindOfAuthority(Employee emp, Authority rescindedAuth)
+
+    ' 2.2.7 Appoint dep rep 
+    void: informAppointmentOfDeptRep(Employee emp)
+    void: informRemovalOfDeptRep(Employee emp)
+
+    ' 2.2.7 Send email to Dept Rep on collection (Store)
+    void: informCollectionOfRequisitionToDeptRep(List<Employee> emp)
+
+    ' 2.2.8 Send email to Employee on collection of requisition
+    ' by Dept Rep (Store)
+    void: informCompletedCollectionOfRequisitionToEmployee(List<Employee> emp)
+}
+
+class StoreEmailNotificationUtility <<Utility>> {
+    '2.2.7 Inform store clerk of collection point change (Dept)
+    void: informChangeOfCollectionPoint(Department dep, CollectionPoint cp)
+
+    ' 2.2.7 Send email to supervisor/manager on store adjustment
+    void: escalateStockAdjustmentVoucher(Employee emp)
+}
+
+class AndroidNotificationUtility <<Utility>> {
+
+}
+@enduml
