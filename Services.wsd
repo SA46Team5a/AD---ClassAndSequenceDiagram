@@ -6,132 +6,154 @@
 [X] 2.2.8 Change Collection Point
 
 @startuml
-class ClassificationService <<Service>> {
+Interface ClassificationService <<Service>> {
     --Retrieve--
-    +List<Category>: getCategories()
-    +List<ApprovalStatus>: getApprovalStatus()
-    +List<RetrievalStatus>: getRetrievalStatus()
-    +List<CollectionPoint>: getCollectionPoints()
+    +List<Category>: GetCategories()
+    +List<ApprovalStatus>: GetApprovalStatus()
+    +List<RetrievalStatus>: GetRetrievalStatus()
+    +List<CollectionPoint>: GetCollectionPoints()
 }
 
-class RequisitionService <<Service>> {
+Interface RequisitionService <<Service>> {
     --Retrieve--
     ' RequisitionDetails can be retrieved from Requisition object
     ' If no unsubmitted requsition, create new Requisition object for employee
-    +Requisition: getUnsubmittedRequisitionOfEmployee(Employee emp)  
-    +Requisition: getRequisitionById(int reqId)
-    +List<Requisition>: getRequisitionsOfEmployee(Employee emp)
-    +List<Requisition>: getSubmittedRequisitionsOfDepartment(Department dep)
-    +List<Requisition>: getRequisitionsOfCategory(Category cat)
-    +List<Requisition>: getAllApprovedUnretrievedRequisitions()
-    ' Gets data from RetrievalItems View
-    +List<RetrievalItem>: getItemRetrievalAndStockCount()
-    +List<OutstandingRequisitionItems>: getOutstandingRequisitionItems()
-
+    +Requisition: GetUnsubmittedRequisitionOfEmployee(string) empId)  
+    +Requisition: GetRequisitionById(int reqId)
+    +RequisitionDetail: GetRequisitionDetailById(int reqDetailId)
+    +List<Requisition>: GetRequisitionsOfEmployee(string empId)
+    +List<Requisition>: GetPendingRequisitionOfDep(string depId)
+    +List<RequisitionDetail>: GetRequisitionDetails(int reqId)
+    
     --Create--
-    +Requisition: createNewRequisitionForEmployee(Employee emp)
-    +void: addNewRequisitionDetail(Requisition req, RequisitionDetail rd)
+    +Requisition: CreateNewRequisitionForEmployee(string empId)
+    +void: AddNewRequisitionDetails(Requisition req, Dictionary<string, int> itemAndQty)
+    +void: AddNewRequisitionDetail(Requisition req, RequisitionDetail rd)
+    +void: AddNewRequisitionDetail(int reqId, string itemId, int qtyRequested)
 
     --Update--
     ' Loops through list and calls updateRequsitionDetail
-    +void: updateRequisitionDetails(List<int> reqDetailIds, int newQuantities)
-    +void: updateRequisitionDetail(int reqDetailId, int newQuantity)
+    +void: EditRequisitionDetailQtys(Disctionary<int, int> reqDetailIdAndQtys)
+    +void: EditRequisitionDetailQty(int reqDetailId, int qty)
     ' At submit, call createNewRequisitionForEmployee(Employee emp)
-    +void: submitRequsition(int reqId)
-    +void: rejectRequisition(Requisition req)
-    +void: approveRequisition(Requisition req)
+    +void: SubmitRequsition(int reqId)
+    +void: RejectRequisition(int reqId, int authId)
+    +void: ApproveRequisition(int reqId, int authId)
 
     --Delete--
-    +void: deleteRequisition(int reqId)
-    +void: deleteRequisitionDetail(int reqDetailId)
+    +void: DeleteRequisition(int reqId)
+    +void: DeleteRequisitionDetail(int reqDetailId)
 }
 
-class DisbursementService <<stereotype>> {
-    --Retrieve--
-    +List<Disbursements>: getDisbursementsByDep(Department dep)
-
+Interface DisbursementService <<Service>> {
+    --Retrieve--   
+    +List<RetrievalItem>: GetRetrievalForm(string empId)
+    +List<RetrievalItem>: GenerateNewRetrievalForm(string empId)
+    +List<RetrievalItem>: GenerateRetrievalFormFromDisbursementDuty(int disDutyId)
+    +DisbursementDuty: GetDisbursementDutyById(int disDutyId)
+    +DisbursementDuty: GetDisbursementDutyByStoreClerkEmpId(string empId)
+    +Disbursement: GetDisbursementById(int disId)
+    +List<Disbursement>: GetUncollectedDisbursementsByDep(string depId)
+    +List<DisbursementDetail>: GetUncollectedDisbursementDetailsByDep(string depId)
+    +List<DisbursementDetail>: GetDisbursementDetailsByReqId(int reqId)
+    +int: GetTotalCountOfItemDisbursedForReqDetailId(int reqId)
+   
     --Create--
-
+    +int: AddDisbursementDuty(string empId)
+    +int: AddDisbursementFromRequisition(int reqId, int disDutyId)
+    +void: AddDisbursementDetailFromRequsitionDetail(int reqDetailId, int disId, int quantity)
+   
     --Update--
-    +void: confirmDisbursement(List<int> disbursementIds)
-    ' calls StockManagementService.addStockVoucher if disbursed count and collected count is different
-    +void: confirmDisbursementDetails()
+    +void: AllocateRetrievalToDisbursementDetails(List<RequisitionDetail> requisitionDetails, DisbursementDuty disDuty, int qty)
+    +void: SubmitRetrievalForm(int disDutyId, Dictionary<string, int> itemsAndQtys)
+    +void: SubmitDisbursementOfDep(List<int> disDutyIds, string depId, List<DisbursementDetailPayload> items, string empId)
+    +void: AdjustStockFromRejectedDisbursement(DisbursementDetailPayload di, string empId)
+    +void: AllocateCollectedQuantityToDisbursementDetails(List<DisbursementDetail> disbursementDetails, int collectedQty, string reason)
+    +void: UpdateRequsitionRetrievalStatusBasedOnTotalDisbursed(int disDutyId)
+   
 
-    --Delete--
 }
 
-class OrderService {
+Interface OrderService {
     --Retrieve--
     ' Loops through and calls the second method
-    +Order: getFirstOrderAfterDateWithItem(Date date, Item item)
-    +List<Order>: getReceivedOrders()
-    +List<ReorderDetail>: getReorderDetails()
+    +Order: GetOrder(int orderId)
+    +OrderSupplier: GetOrderSupplier(int orderSupplierId)
+    +OrderSupplierDetail: GetOrderSupplierDetail(int orderSupplierDetailId)
+    +List<ReorderDetail>: GetReorderDetails()
+    +List<Supplier>: GetSuppliers()
+    +List<SupplierItem>: GetSupplierItemsOfItemIds(List<String> itemIds)
+    +List<OrderSupplier>: GetOrderSuppliersOfOrder(int orderId)
+    +List<OrderSupplier>: GetOrdersServingOutstandingRequisitions(int reqDetailId)
 
     --Create--
     ' createNewOrder will call addOrder, addOrderSupplier and addOrderSupplierDetails
-    +void: createNewOrder(Dictionary<Supplier, Dictionary<Item, int>> availableStockFromSupplier)
-    -void: addOrder(Order o)
-    -void: addOrderSupplier(OrderSupplier os)
-    -void: addOrderSupplierDetails(OrderSupplierDetails osd)
+    +int: CreateOrderAndGetOrderId(Dictionary<string, int> itemAndQty, Dictionary<int, int> supplierItemsAndQty)
+    +OrderSupplier: CreateOrderSupplier(int orderId, string supplierId)
+    +OrderSupplierDetail: CreateOrderSupplierDetail(int orderSupplierId, SupplierItem si, int qty)
+    +void: AllocateQtyToSuppliers(Order order, Dictionary<int, int> supplierItemAndqty, int qty)
 
     --Update--
-    +void: updateOrderStatus(int orderSupplierId, OrderStatus status)
-    +void: updateInvoiceUploadStatus(int orderSupplierId, InvoiceUploadStatus status)
-    +void: updateOrderSupplierDetailsQtyReceived(int orderSupplierDetailsId, int qtyReceived)
+    +void: UpdateQtyRecievedOfOrderSupplierDetail(int orderSupplierDetailId, int qty)
+    +void: ConfirmDeliveryOfOrderSupplier(int orderSupplierId)
+    +void: ConfirmInvoiceUploadStatus(int orderSupplierId)
 
-    --Delete--
-}
+   }
 
-class StockManagementService <<Service>> {
+Interface StockManagementService <<Service>> {
     --Retrieve--
-    +int: getAllItems()
-    +int: getStockCountOfItem(Item item)
-    +List<Item>: getItemsOfCategory()
-    +List<Vouchers>: getOpenVouchers(bool isStoreManager) 
-    +List<Supplier>: getFirstSupplierOfEachItem()
-    +Supplier: getFirstSupplierOfItem(Item item)
-    +List<Supplier>: getSupplierByItems(List<Item> items>)
+    +List<Item>: GetAllItems()       
+    +List<StockCountItem>: GetAllStockCountItem()      
+    +int: GetStockCountOfItem(string itemId)
+    +string: GetItemName(string itemId)
+    +List<Item>: GetItemsOfCategory(int categoryId)
+    +List<StockVoucher>: GetOpenVouchers()              
+    +Supplier: GetFirstSupplierOfItem(string itemId)     
+    +List<Supplier>: GetSupplierOfItem(string itemId)
+    +List<StockCountItem>: GetStockCountItemsByCategory(int cat)
+    +float: GetItemCost(string itemID)
 
     --Create--
-    +void: addStockTransaction(StockTransaction st)
-    +void: addStockVoucher(StockVoucher sv)
-    ' Stock is rejected at disbursement. Insert a stockTransaction to add qty rejected back, and raise a stockVoucher
-    +void: rejectStock(StockTransaction st, StockVoucher sv)
+    +void: AddStockTransaction(string itemId, string description, string employeeId, int adjustment)
+    +void: AddStockVoucher(string itemId, int actualcount, string employeeId, string reason)
 
     --Update--
-    +void: closeVoucher(StockVoucher sv)
+    +void: RejectStock(string itemId, string reason, int count, string employeeId)
+    +void: SubmitStockCountItems(int empId)
+    +void: SubmitVouchers()
+    +void: CloseVoucher(int discrepancyId, string approvedBy, string reason)
+    +void: SubmitRetrievalForm()
 }
 
-class DepartmentService <<Service>> {
+Interface DepartmentService <<Service>> {
     --Retrieve--
     ' Get authorised person based on current date
-    +Authority: getAuthority()
-    +DepartmentRepresentative: getDepartmentRepresentative(Department dep)
-    +CollectionPoint: getCollectionPointOfDepartment(Department dep)
-    +boolean: verifyPassCode(int passcode)
+    +Authority: GetCurrentAuthority(string dept)
+    +DepartmentRepresentative: GetCurrentDepartmentRepresentative(string dept)
+    +CollectionPoint: GetCollectionPointOfEmployee(string emp)
+    +bool: VerifyPassCode(string passcode, string dep)
+    +Employee: GetEmployeeById(string emp)
+    +List<Employee>: GetEmployeesOfDepartment(string dep)
+    +string: GetDepartmentID(string emp)
+    +Employee: GetEmployeeObject(string empName)
 
     --Create--
     ' Add emp as Authority with start and end date, and add Dep Head with start date = emp end date + 1
-    +void: addAuthority(Employee emp)
+    +void: AddAuthority(Employee emp, DateTime startdate, DateTime enddate)
 
     --Update--
-    +void: updateAuthority(Authority auth)
-    +void: rescindAuthority(Authority auth)
-    +void: updateDepartmentRepresentative(Department dep, Employee emp)
-    +void: updateCollectionPoint(Department dep, CollectionPoint cp)
-    +void: generateNewPasscode(Department dep)
+    +void: UpdateAuthority(Authority auth)
+    +void: RescindAuthority(Authority auth)
+    +void: UpdateDepartmentRepresentative(int currentDeptRepId, string newRepEmpId)
+    +void: UpdateCollectionPoint(string dep, int cp)
+    +string: GenerateNewPasscode(string dep)
 
-    --Delete--
 }
 
-class ReportService <<Service>>{
-    ' To discuss with Khim Yang on how he wants the data to be stuctured
-}
+Interface ReportService <<Service>>{
 
-class template <<Stereotype>> {
-    --Retrieve--
-    --Create--
-    --Update--
-    --Delete--
++ ReportResponsePayload: GenerateReorderCostReport(ReorderRequestPayload payload)
++ ReportResponsePayload: PastThreeMonthsReport(List<OrderSupplierDetail> orderSupplierDetails);
+
 }
 @enduml
