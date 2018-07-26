@@ -1,0 +1,203 @@
+@startuml
+
+class ApprovalStatus <<Entities>> {
++int: ApprovalStatusID
++string: ApprovalStatusName
+
+}
+
+class Authority <<Entities>> {
++int: AuthorityID
++string: EmployeeID
++DateTime: StartDate
++DateTime: EndDate
+}
+
+class Category <<Entities>> {
++int: CategoryID
++string: CategoryName
+}
+
+class CollectionPoint <<Entities>> {
++int: CollectionPointID
++string: CollectionPointName
+}
+
+class DeliveryStatus <<Entities>> {
++int: DeliveryStatusID
++string: DeliveryStatusName
+}
+
+class Department <<Entities>> {
++string: DepartmentID
++string: DepartmentName
++int: CollectionPointID
++string: DepartmentHead
+}
+
+class DepartmentRepresentative <<Entities>> {
++int: DeptRepID
++string: EmployeeID
++DateTime: StartDate
++DateTime: EndDate
++string: Passcode
+}
+
+class Disbursement <<Entities>> {
++int: DisbursementID
++int: RequisitionID
++DateTime: CollectionDate
++int: CollectedBy
++int: DisbursementDutyID
+}
+
+class DisbursementDetail <<Entities>> {
++int: DisbursementDetailsID
++int: DisbursementID
++int: Quantity
++int: CollectedQty
++string: Reason
++int: RequisitionDetatilsID
+}
+
+class DisbursementDuty <<Entities>> {
++int: DisbursementDutyID
++string: StoreClerkID
++DateTime: DisbursementDate
++bool: isRetrieved
+}
+
+class Employee <<Entities>> {
++string: EmployeeID
++string: DepartmentID
++string: EmployeeName
++string: PhoneNumber
++string: EmailID
++strign: Sex
+}
+
+class InvoiceUploadStatus <<Entities>> {
++int: InvoiceUploadStatusID
++string: InvoiceUploadStatusName
+}
+
+class Item <<Entities>> {
++string: ItemID
++string: ItemName
++string: CategoryID
++string: UnitOfMeasure
+}
+
+class Order <<Entities>> {
++int: OrderID
++DateTime: OrderDate
+}
+
+class OrderSupplier <<Entities>> {
++int: OrderSupplierID
++int: OrderID
++string: SupplierID
++int: DeliveryStatusID
++int: InvoiceUploadStatusID
+
+}
+
+class OrderSupplierDetail <<Entities>> {
++int: OrderSupplierDetailID
++int: OrderSupplierID
++string: ItemID
++int: Quantity
++decimal: UnitCost
++int: ActualQuantityReceived
+}
+
+class ReorderDetail <<Entities>> {
++string: ItemID
++int: ReorderLevel
++int: ReorderQuantity
++string: ItemName
++int: QtyInStock
+}
+
+class OustandingRequisitionView <<Entities>> {
++int: RequisitionID
++DateTime: ApproveDate
++int: RequisitionDetatilsID
++string: ItemID
++int: OutstandingQuantity
+}
+
+class Requisition <<Entities>> {
++int: RequisitionID
++string: EmployeeID
++DateTime: RequestedDate
++int: AuthorityID
++DateTime: ApproveDate
++int: RetrievalStatusID
++int: ApprovalStatusID
+}
+
+class RequisitionDetail <<Entities>> {
++int: RequisitionDetatilsID
++int: RequisitionID
++string: ItemID
++int: Quantity
+}
+
+class RetrievalItem <<Entities>> {
++string: ItemID
++int: QtyToRetrieve
++int: QtyInStock
+}
+
+class RetrievalStatus <<Entities>> {
++int: RetrievalStatusID
++string: RetrievalStatusName
+}
+
+class StockCountItem <<Entities>> {
++string: ItemID
++string: ItemName
++string: UnitOfMeasure
++int: QtyInStock
+}
+
+class StockTransaction <<Entities>> {
++int: TransactionID
++string: ItemID
++string: Description
++int: Adjustment
++string: EmployeeID
+}
+
+class StockVoucher <<Entities>> {
++int: DiscrepancyID
++string: ItemID
++int: OriginalCount
++int: ActualCount
++decimal: ItemCost
++string: Reason
++string: RaisedBy
++string: ApprovedBy
++DateTime: RaisedByDate
++DateTime: ApprovedDate
+}
+
+class Supplier <<Entities>> {
++string: SupplierID
++string: SupplierName
++string: ContactName
++string: PhoneNumber
++string: FaxNumber
++string: Address
+}
+
+class SupplierItem <<Entities>> {
++int: SupplierItemID
++string: SupplierID
++string: ItemID
++int: Rank
++decimal: Cost
+}
+
+@enduml
