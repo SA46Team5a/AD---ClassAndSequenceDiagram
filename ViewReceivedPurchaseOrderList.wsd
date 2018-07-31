@@ -1,0 +1,49 @@
+@startuml
+actor StoreClerk
+boundary ReceivedPurchaseOrderListView
+control HomeController
+control ViewReceivedOrderListController
+Participant OrderService
+entity Order
+entity OrderSupplierDetails
+entity SupplierItem
+entity Supplier
+
+
+HomeController -> ViewReceivedOrderListController: 1.ViewReceivedOrderListController()
+activate ViewReceivedOrderListController
+ViewReceivedOrderListController->OrderService: 2.RecievedPurchaseOrderList()
+activate OrderService
+OrderService->Order: 3.RecievedPurchaseOrderList()
+activate Order
+deactivate Order
+deactivate OrderService
+ViewReceivedOrderListController->ReceivedPurchaseOrderListView: 4.DisplayPurchaseOrderList()
+activate ReceivedPurchaseOrderListView
+StoreClerk->ReceivedPurchaseOrderListView: 5.ClickViewDetails
+ReceivedPurchaseOrderListView->ViewReceivedOrderListController: 6.PurchaseOrderSummary()
+deactivate ReceivedPurchaseOrderListView
+ViewReceivedOrderListController->OrderService: 7.GetOrderSupplier()
+activate OrderService
+OrderService->OrderSupplier: 8.GetOrderSupplier()
+activate OrderSupplier
+OrderSupplier->OrderSupplierDetails: 9.GetOrderSupplierDetail()
+deactivate OrderSupplier
+activate OrderSupplierDetails
+deactivate OrderSupplierDetails
+OrderService->SupplierItem: 10.GetSipplierItem
+activate SupplierItem
+deactivate SupplierItem
+deactivate OrderSupplierDetails
+OrderService->Supplier: 11.GetSupplier
+activate Supplier
+deactivate Supplier
+OrderService->OrderSupplierDetails: 12.GetSupplierItemOfItemId()
+activate OrderSupplierDetails
+deactivate OrderSupplierDetails
+deactivate OrderService
+ViewReceivedOrderListController->ReceivedPurchaseOrderListView: 13.DisplayDetails()
+activate ReceivedPurchaseOrderListView
+deactivate ReceivedPurchaseOrderListView
+
+@enduml

@@ -1,0 +1,82 @@
+@startuml
+actor StoreClerk
+boundary ItemCatalogueView
+boundary ConfirmReorderQuantityView
+boundary PlaceOrderView
+boundary OrderSummaryView
+boundary HomeView
+control HomeController
+control CreateOrderController
+Participant OrderService
+Participant StockManagementService
+entity StockVoucher
+entity ReorderDetail
+entity Categories
+entity SupplierItems
+entity Supplier
+entity Order
+
+HomeController -> CreateOrderController: 1.ItemCatalogue()
+activate CreateOrderController
+CreateOrderController->OrderService: 2.GetReorderDetails()
+activate OrderService
+OrderService->ReorderDetail: 3.GetReorderDetails()
+activate ReorderDetail
+deactivate ReorderDetail
+deactivate OrderService
+CreateOrderController->ItemCatalogueView: 4.DisplayItemOfList()
+activate ItemCatalogueView
+deactivate CreateOrderController
+StoreClerk->ItemCatalogueView: 5.SelectCategory
+StoreClerk->ItemCatalogueView: 6.Next()
+ItemCatalogueView->CreateOrderController:7.ItemCatalogue()
+activate CreateOrderController
+deactivate ItemCatalogueView
+CreateOrderController->StockManagementService: 8.GetItemOfCategory()
+activate StockManagementService
+StockManagementService->Categories: 9.GetItemOfCategory()
+activate Categories
+deactivate Categories
+deactivate StockManagementService
+CreateOrderController->ConfirmReorderQuantityView: 10.OrderQuantity()
+activate ConfirmReorderQuantityView
+StoreClerk->ConfirmReorderQuantityView: 11.EditQuantity()
+StoreClerk->ConfirmReorderQuantityView: 12.Next()
+ConfirmReorderQuantityView->CreateOrderController: 13.OrderQuantity()
+deactivate ConfirmReorderQuantityView
+CreateOrderController->OrderService: 14.AddSupplierListInplaceOrderView()
+activate OrderService
+OrderService->SupplierItems: 15.GetSupplierDetails()
+activate SupplierItems
+SupplierItems->Supplier: 16.GetSupplierDetails()
+activate Supplier
+deactivate Supplier
+deactivate SupplierItems
+deactivate OrderService
+CreateOrderController->PlaceOrderView: 17.PlaceOrder()
+activate PlaceOrderView
+StoreClerk->PlaceOrderView: 18.EnterAvailableQuatity
+StoreClerk->PlaceOrderView: 19.Next()
+PlaceOrderView->CreateOrderController: 20.PlaceOrder()
+
+CreateOrderController->OrderService: 21. CreateOrderAndGetOrderId()
+activate OrderService
+OrderService->Order: 22.CreateOrderAndGetOrderId()
+activate Order
+deactivate Order
+deactivate PlaceOrderView
+CreateOrderController->OrderSummaryView: 23.OrderSummary()
+activate OrderSummaryView
+StoreClerk->OrderSummaryView: 24. DownloadPO()
+StoreClerk->OrderSummaryView: 25. Home()
+OrderSummaryView->HomeController: 26. HomeController()
+activate HomeController
+deactivate OrderSummaryView
+HomeController->HomeView: 27. HomeView()
+activate HomeView
+deactivate HomeController
+deactivate HomeView
+deactivate CreateOrderController
+
+
+@enduml

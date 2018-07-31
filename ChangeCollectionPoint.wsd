@@ -1,0 +1,38 @@
+@startuml
+actor DepartmentRepresentative
+boundary ChangeCollectionPointView
+control HomeController
+control ChangeCollectionPointController
+Participant DepartmentService
+entity CollectionPoint
+entity Department
+
+HomeController -> ChangeCollectionPointController: 1.ChangeCollectionPointController()
+activate ChangeCollectionPointController
+ChangeCollectionPointController -> DepartmentService : 2.GetCollectionPoint()
+activate DepartmentService
+DepartmentService -> CollectionPoint: 3.GetCollectionPoint()
+activate CollectionPoint
+deactivate CollectionPoint
+deactivate DepartmentService
+ChangeCollectionPointController -> ChangeCollectionPointView : 4. displayCollectionpoints()
+deactivate ChangeCollectionPointController
+activate ChangeCollectionPointView
+
+DepartmentRepresentative -> ChangeCollectionPointView: 5.SelectCollectionPoint
+
+DepartmentRepresentative -> ChangeCollectionPointView: 6.Confirm()
+ChangeCollectionPointView -> ChangeCollectionPointController: 7.ChangeCOllectionPoint()
+activate ChangeCollectionPointController 
+ChangeCollectionPointController -> DepartmentService: 8.updateCollectionPoint()
+activate DepartmentService
+DepartmentService -> Department: 9.updateCollectionPoint()
+activate Department
+deactivate Department
+deactivate DepartmentService
+deactivate ChangeCollectionPointController
+ChangeCollectionPointView -> DepartmentRepresentative: 10.DisplaySucessMsg()
+deactivate ChangeCollectionPointView
+
+
+@enduml

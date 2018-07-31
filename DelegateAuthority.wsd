@@ -1,0 +1,50 @@
+
+@startuml
+actor DeptHead
+boundary DelegateAuthorityView
+control HomeController
+control DelegateAuthorityController
+Participant DepartmentService
+entity Employees
+entity Authority
+
+HomeController -> DelegateAuthorityController: 1.DelegateAuthority()
+activate DelegateAuthorityController
+DelegateAuthorityController -> DepartmentService : 2.GetEmpofDept()
+activate DepartmentService
+DepartmentService -> Employees: 3.GetEmpofDept()
+activate Employees
+deactivate Employees
+deactivate DepartmentService
+DelegateAuthorityController -> DelegateAuthorityView : 4. DisplayDetails()
+deactivate DelegateAuthorityController
+activate DelegateAuthorityView
+DeptHead -> DelegateAuthorityView: 5.EnterDetails
+DeptHead -> DelegateAuthorityView: 6.Confirm()
+DelegateAuthorityView -> DelegateAuthorityController: 7.DelegateAuthority()
+activate DelegateAuthorityController 
+DelegateAuthorityController -> DepartmentService: 8.AddAuthority()
+activate DepartmentService
+DepartmentService -> Authority: 9.AddAuthority()
+activate Authority
+deactivate Authority
+deactivate DepartmentService
+deactivate DelegateAuthorityController
+DelegateAuthorityView -> DeptHead: 10.DisplaySucessMsg()
+deactivate DelegateAuthorityView
+
+DeptHead -> DelegateAuthorityView: 11.Rescind()
+activate DelegateAuthorityView
+DelegateAuthorityView -> DelegateAuthorityController: 12.DelegateAuthority()
+activate DelegateAuthorityController 
+DelegateAuthorityController -> DepartmentService: 13.RescindAuthority()
+activate DepartmentService
+DepartmentService -> Authority: 14.RescindAuthority()
+activate Authority
+deactivate Authority
+deactivate DepartmentService
+deactivate DelegateAuthorityController
+DelegateAuthorityView -> DeptHead: 15.DisplaySucessMsg()
+deactivate DelegateAuthorityView
+
+@enduml

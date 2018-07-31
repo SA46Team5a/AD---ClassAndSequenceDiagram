@@ -1,0 +1,60 @@
+@startuml
+actor StoreClerk
+boundary RequisitionItemAnalysisReportView
+control HomeController
+control ReportingController
+control ReportingAPIController
+Participant ReportService
+Participant ClassificationService
+Participant DepartmentService
+entity Departments
+entity RequisitionDetails
+entity Items
+entity Employees
+entity Requisition
+
+HomeController -> ReportingController: 1.ReportingController()
+activate ReportingController
+ReportingController -> ClassificationService : 2.GetItems()
+activate ClassificationService
+ClassificationService -> Items: 3.GetItems()
+activate Items
+deactivate Items
+deactivate ClassificationService
+ReportingController -> DepartmentService : 4.GetDepartments()
+activate DepartmentService
+DepartmentService -> Departments: 5.GetDepartments()
+activate Departments
+deactivate Departments
+deactivate DepartmentService
+ReportingController -> RequisitionItemAnalysisReportView: 6.DisplayDetails()
+activate  RequisitionItemAnalysisReportView
+deactivate ReportingController
+StoreClerk -> RequisitionItemAnalysisReportView: 7.SelectOptions()
+StoreClerk -> RequisitionItemAnalysisReportView: 8.Generate()
+RequisitionItemAnalysisReportView<-->ReportingAPIController: 9.ReportingAPIController()
+activate ReportingAPIController
+ReportingAPIController -> ReportService: 10.GenerateRequisitionItemReport()
+activate ReportService
+note left: Response returns in JSON format
+ReportService -> RequisitionDetails: 11.GetRequisitionDetails()
+activate RequisitionDetails
+RequisitionDetails->Employees: 12.GetEmployeesDept()
+activate Employees
+deactivate Employees
+RequisitionDetails->Items: 13.GetItemsOfRequisition()
+activate Items
+deactivate Items
+RequisitionDetails->Departments: 14.GetDepartments()
+activate Departments
+deactivate Departments
+RequisitionDetails->Requisition: 15.GetRequisition()
+activate Requisition
+deactivate Requisition
+deactivate RequisitionDetails
+deactivate ReportService
+deactivate ReportingAPIController
+RequisitionItemAnalysisReportView->RequisitionItemAnalysisReportView: 16.UpdateChart()
+RequisitionItemAnalysisReportView->RequisitionItemAnalysisReportView: 17.UpdateTable()
+
+@enduml

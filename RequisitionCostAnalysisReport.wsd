@@ -1,0 +1,58 @@
+@startuml
+actor StoreClerk
+boundary RequisitionCostAnalysisReportView
+control HomeController
+control ReportingController
+control ReportingAPIController
+Participant ReportService
+Participant ClassificationService
+Participant DepartmentService
+entity Departments
+entity RequisitionDetails
+entity Categories
+entity Items
+entity Employees
+entity SupplierItems
+
+HomeController -> ReportingController: 1.ReportingController()
+activate ReportingController
+ReportingController -> ClassificationService : 2.GetCategories()
+activate ClassificationService
+ClassificationService -> Categories: 3.GetCategories()
+activate Categories
+deactivate Categories
+deactivate ClassificationService
+ReportingController -> DepartmentService : 4.GetDepartments()
+activate DepartmentService
+DepartmentService -> Departments: 5.GetDepartments()
+activate Departments
+deactivate Departments
+deactivate DepartmentService
+ReportingController -> RequisitionCostAnalysisReportView: 6.DisplayDetails()
+activate  RequisitionCostAnalysisReportView
+deactivate ReportingController
+StoreClerk -> RequisitionCostAnalysisReportView: 7.SelectOptions()
+StoreClerk -> RequisitionCostAnalysisReportView: 8.Generate()
+RequisitionCostAnalysisReportView<-->ReportingAPIController: 9.ReportingAPIController()
+activate ReportingAPIController
+ReportingAPIController -> ReportService: 10.GenerateRequisitionCostReport()
+activate ReportService
+note left: Response returns in JSON format
+ReportService -> RequisitionDetails: 11.GetRequisition()
+activate RequisitionDetails
+RequisitionDetails->Items: 12.GetItemsOfCategories()
+activate Items
+deactivate Items
+RequisitionDetails->Employees: 13.GetEmpOfDepartment()
+activate Employees
+deactivate Employees
+RequisitionDetails->SupplierItems: 14.GetSupplierItems()
+activate SupplierItems
+deactivate SupplierItems
+deactivate RequisitionDetails
+deactivate ReportService
+deactivate ReportingAPIController
+RequisitionCostAnalysisReportView->RequisitionCostAnalysisReportView: 15.UpdateChart()
+RequisitionCostAnalysisReportView->RequisitionCostAnalysisReportView: 16.UpdateTable()
+
+@enduml

@@ -1,0 +1,43 @@
+@startuml
+actor StoreClerk
+boundary ManageMonthlyStockDiscrepancyView
+boundary HomeView
+control HomeController
+control StockAdjustmentController
+Participant StockManagementService
+entity StockVoucher
+
+HomeController -> StockAdjustmentController: 1.ManageMonthlyStockDiscrepancy()
+activate StockAdjustmentController
+StockAdjustmentController -> StockManagementService : 2.GetOpenVouchers()
+activate StockManagementService
+StockManagementService -> StockVoucher : 3.GetOpenVouchers()
+activate StockVoucher
+deactivate StockVoucher
+deactivate StockManagementService
+StockAdjustmentController -> ManageMonthlyStockDiscrepancyView: 4.DisplayDiscrepancyList()
+activate ManageMonthlyStockDiscrepancyView
+deactivate StockAdjustmentController
+StoreClerk -> ManageMonthlyStockDiscrepancyView : 5.SelectITems()
+StoreClerk -> ManageMonthlyStockDiscrepancyView: 7.Confirm()
+
+ManageMonthlyStockDiscrepancyView -> StockAdjustmentController: 8.ManageMonthlyStockDiscrepancy()
+activate StockAdjustmentController 
+StockAdjustmentController -> StockManagementService: 9.CloseVouchers()
+activate StockManagementService
+StockManagementService -> StockVoucher: 10.CloseVouchers()
+activate StockVoucher
+deactivate StockVoucher
+deactivate StockManagementService
+deactivate StockAdjustmentController
+ManageMonthlyStockDiscrepancyView -> StoreClerk: 11.DisplayDialog()
+StoreClerk -> ManageMonthlyStockDiscrepancyView: 12. Yes
+ManageMonthlyStockDiscrepancyView -> HomeController: 13. HomeController()
+activate HomeController
+deactivate ManageMonthlyStockDiscrepancyView
+HomeController -> HomeView: 14: DisplayHomePage()
+activate HomeView
+deactivate HomeController
+deactivate HomeView
+
+@enduml

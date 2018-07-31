@@ -1,0 +1,39 @@
+@startuml
+actor StoreClerk
+boundary SubmitInvoiceView
+control HomeController
+control CreateOrderController
+Participant OrderService
+entity OrderSupplier
+actor PaymentDepartment
+
+HomeController -> CreateOrderController: 1.CreateOrderController()
+activate CreateOrderController
+CreateOrderController->OrderService: 2.GetOrderID()
+activate OrderService
+OrderService->OrderSupplier: 3.GetOrderID()
+activate OrderSupplier
+deactivate OrderSupplier
+deactivate OrderService
+CreateOrderController->SubmitInvoiceView: 4.DisplayItemsID()
+activate SubmitInvoiceView
+deactivate CreateOrderController
+StoreClerk->SubmitInvoiceView: 5.SelctID
+SubmitInvoiceView->CreateOrderController: 6.SubmitInvoice()
+activate CreateOrderController
+CreateOrderController->OrderService: 7. GetOrderSupplierOfOrder()
+activate OrderService
+OrderService->OrderSupplier: 8.GetOrderSupplierOfOrder()
+activate OrderSupplier
+deactivate OrderSupplier
+deactivate OrderService
+deactivate CreateOrderController
+StoreClerk->SubmitInvoiceView: 9.SelectSupplier
+StoreClerk->SubmitInvoiceView: 10.UploadInvoice()
+StoreClerk->SubmitInvoiceView: 11.Sent()
+SubmitInvoiceView->PaymentDepartment: 12.ForwardedToPaymentDepartment
+activate PaymentDepartment
+deactivate PaymentDepartment
+
+
+@enduml

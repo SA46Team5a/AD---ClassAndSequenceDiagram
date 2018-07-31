@@ -1,0 +1,57 @@
+@startuml
+actor StoreClerk
+boundary RequisitionReorderAnalysisReportView
+control HomeController
+control ReportingController
+control ReportingAPIController
+Participant ReportService
+Participant ClassificationService
+Participant OrderService
+entity Categories
+entity OrderSupplierDetails
+entity OrderSupplier
+entity Supplier
+entity Order
+
+HomeController -> ReportingController: 1.ReportingController()
+activate ReportingController
+ReportingController -> ClassificationService : 2.GetCategories()
+activate ClassificationService
+ClassificationService -> Categories: 3.GetCategories()
+activate Categories
+deactivate Categories
+deactivate ClassificationService
+ReportingController -> OrderService : 4.GetSupplier()
+activate OrderService
+OrderService -> Supplier: 5.GetSupplier()
+activate Supplier
+deactivate Supplier
+deactivate OrderService
+ReportingController -> RequisitionReorderAnalysisReportView: 6.DisplayDetails()
+activate  RequisitionReorderAnalysisReportView
+deactivate ReportingController
+StoreClerk -> RequisitionReorderAnalysisReportView: 7.SelectOptions()
+StoreClerk -> RequisitionReorderAnalysisReportView: 8.Generate()
+RequisitionReorderAnalysisReportView<-->ReportingAPIController: 9.ReportingAPIController()
+activate ReportingAPIController
+ReportingAPIController -> ReportService: 10.GenerateRequisitionReorderCostReport()
+activate ReportService
+note left: Response returns in JSON format
+ReportService -> OrderSupplierDetails: 11.GetOrderSupplierDetail()
+activate OrderSupplierDetails
+OrderSupplierDetails->OrderSupplier: 12.GetOrderSupplierDetail()
+activate OrderSupplier
+OrderSupplier->Supplier: 13.GetSupplier()
+activate Supplier
+deactivate Supplier
+OrderSupplier->Order: 14.GetOrder()
+activate Order
+deactivate Order
+deactivate OrderSupplier
+deactivate OrderSupplierDetails
+deactivate ReportService
+deactivate ReportingAPIController
+RequisitionReorderAnalysisReportView->RequisitionReorderAnalysisReportView: 15.UpdateChart()
+RequisitionReorderAnalysisReportView->RequisitionReorderAnalysisReportView: 16.UpdateTable()
+
+@enduml
