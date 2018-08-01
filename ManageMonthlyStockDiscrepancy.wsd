@@ -1,0 +1,22 @@
+@startuml
+actor Supervisor
+boundary DiscrepancyItemActivity
+control StockManagementAPI
+Participant StockManagementService
+
+DiscrepancyItemActivity->StockManagementAPI: 1.RetrieveOutstandingStockVouchers()
+activate StockManagementAPI
+StockManagementAPI->StockManagementService: 2.GetOpenVouchers()
+activate StockManagementService
+deactivate StockManagementService
+deactivate StockManagementAPI
+Supervisor->DiscrepancyItemActivity: 3.SelectCheckbox
+activate DiscrepancyItemActivity
+Supervisor->DiscrepancyItemActivity: 4.ClickSubmit()
+DiscrepancyItemActivity->StockManagementAPI: 5.SubmitStockVouchers()
+activate StockManagementAPI
+StockManagementAPI->StockManagementService: 6.SubmitVouchers()
+activate StockManagementService
+Supervisor->DiscrepancyItemActivity: 7. ok
+note left:Dialog box appear to confirm
+@enduml

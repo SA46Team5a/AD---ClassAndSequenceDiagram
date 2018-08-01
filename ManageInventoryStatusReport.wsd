@@ -1,0 +1,25 @@
+@startuml
+actor StoreClerk
+boundary ManageInventoryActivity
+boundary ManageInventoryDetailActivity
+control StockManagementAPI
+Participant StockManagementWCFService
+
+StoreClerk->ManageInventoryActivity: 1.selectCategory()
+activate ManageInventoryActivity
+ManageInventoryActivity->StockManagementAPI: 2.GetStockCountByCategory()
+activate StockManagementAPI
+StockManagementAPI->StockManagementWCFService: 3.GetStockcountItemsByCategory()
+activate StockManagementWCFService
+deactivate StockManagementWCFService
+deactivate StockManagementAPI
+StoreClerk->ManageInventoryDetailActivity: 4.EnterActualStockAndReason
+activate ManageInventoryDetailActivity
+StoreClerk->ManageInventoryDetailActivity: 5.ClickSubmit()
+ManageInventoryDetailActivity->StockManagementAPI: 6.SubmitActualStockCount()
+activate StockManagementAPI
+StockManagementAPI->StockManagementWCFService: 7. submitStockofItem()
+activate StockManagementWCFService
+StoreClerk->ManageInventoryDetailActivity: 8. ClickOk
+note left:Dialog box appear to confirm
+@enduml

@@ -1,0 +1,32 @@
+@startuml
+actor StoreClerk
+boundary TrackOutstandingRequisitionView
+boundary ConfirmReorderQuantityView
+control TrackOutstandingRequisitionController
+control CreateOrderController
+Participant OrderService
+entity Orders
+entity OutstandingRequisitionView
+
+StoreClerk->TrackOutstandingRequisitionView: 1.InputSearchCriteria()
+activate TrackOutstandingRequisitionView
+TrackOutstandingRequisitionView->TrackOutstandingRequisitionController: 2.TrackOutstandingRequirement()
+activate TrackOutstandingRequisitionController
+TrackOutstandingRequisitionController->OrderService: 3.GetordersServingOutstandingRequisition()
+activate OrderService
+OrderService->Orders: 4.GetOrders()
+activate Orders
+deactivate OrderService
+TrackOutstandingRequisitionController->TrackOutstandingRequisitionView: 4.DisplayOutstandingRequisition()
+StoreClerk->TrackOutstandingRequisitionController: 5.ClickReorder
+TrackOutstandingRequisitionView->TrackOutstandingRequisitionController: 6.TrackOutstandingRequisition()
+TrackOutstandingRequisitionController->CreateOrderController: 7.CreateOrders()
+activate CreateOrderController
+CreateOrderController->OutstandingRequisitionView: 8. GetOutstandingQuantity()
+CreateOrderController->ConfirmReorderQuantityView: 9. DisplayOrderQuantity()
+activate ConfirmReorderQuantityView
+StoreClerk->ConfirmReorderQuantityView: 10. ReferReorderQuantity
+note right:ReferToReorderQuantity
+
+
+@enduml
