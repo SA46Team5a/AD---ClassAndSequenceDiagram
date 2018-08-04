@@ -1,0 +1,126 @@
+@startuml
+Class ViewStationeryCatogue <<Boundary>> {   
+    +SearchClick()
+    +ValidateI()
+    +Submit()
+}
+
+Class StaioneryRequestForm <<Boundary>>{
+ +Delete()
+ +BtnBack()
+ +Update()
+ +Submit()
+ +EmailNotification()
+}
+
+Class ViewSubmittedRequisitionForm <<Boundary>>{
+ +btnSearch()
+ +View()
+ +Update()
+ }
+
+ Class ResubmitStationeryRequestForm <<Boundary>>{
+     +Delete()
+     +submit()
+     +Update()
+     +Home()
+     +EmailNotification()
+ }
+
+ Class ViewStationeryRequestForm <<Boundary>>{
+     +Back()
+ }
+
+Class ApproveRequisitionForm <<Boundary>>{
+    +Approve()
+    +Reject()
+    +Home()
+    +EmailNotification()
+}
+
+Class DelegateAuthority <<Boundary>>{
+
+    +Submit()
+    +Home()
+    +Rescind()
+    +EmailNotification()
+}
+
+Class AppointDepartmentRepresentative <<Boundary>>{
+    +Submit()
+    +Home()
+    +EmailNotification()
+}
+
+Class ChangeCollectionPoint <<Boundary>>{
+
+    +Submit()
+    +Home()
+}
+
+
+
+
+
+Class OutstandingRequisitionTracking <<Boundary>>{
+
+    +Search()
+    +Validate()
+    +ReOrder()
+}
+
+Class ItemCatalogue <<Boundary>>{
+
+    +Search()
+    +Submit()
+    +Cancel()
+}
+
+Class OrderQuantity <<Boundary>>{
+    +Submit()
+    +Home()
+    }
+
+Class PlaceOrder <<Boundary>>{
+    +Submit()
+    +Home()
+}
+
+Class Summary <<Boundary>>{
+    +DownloadPO()
+    +Home()
+}
+
+Class SubmitInvoice <<Boundary>>{
+ +Search()
+ +Validate()
+ +file()
+ +Submit()
+}
+
+Class ReceivedPurchaseOrderList <<Boundary>>{
+    +ViewDetails()
+}
+
+Class ReceivedPurchaseOrderDetails <<Boundary>>{
+    +Home()
+    +Back()
+}
+
+Class ManageMonthlyStockDiscrepancy <<Boundary>>{
+    +Submit()
+    +Home()
+}
+
+Class RequisitionCostAnalysisReport <<Boundary>>{
+    +Generate()
+}
+
+Class RequisitionItemAnalysisReport <<Boundary>>{
+    +Generate()
+}
+
+Class RequisitionReorderCostAnalysisReport <<Boundary>>{
+    +Generate()
+}
+@enduml

@@ -206,26 +206,32 @@ Class Requester <<Entities>> {
 @enduml
 
 @startuml
-ClassDepartment o-- ClassEmployee : has
-ClassDepartment o-- ClassCollectionPoint : has
-ClassEmployee o-- ClassAuthority : contains
-ClassEmployee o-- CalssDepartmentRepresentative : has
-ClassEmployee o-- ClassRequisition : request
-ClassRequisition --o ClassApprovalStatus : has
-ClassRequisition --o ClassRetrievalStatus : has
-ClassRequisition o-- ClassRequisitionDetail : contains
-ClassDisburesement o-- ClassRequisition
-ClassDisburesement o-- ClassDisburesementDuty
-ClassDisburesement o-- ClassDisburesementDetails
-ClassOrder o-- ClassOrderSupplier
+ClassCollectionPoint o-- ClassDepartment : contains
 ClassSupplier o-- ClassOrderSupplier : contains
-ClassSupplier o-- ClassSupplierItem
-ClassOrderSupplier o-- ClassOrderSupplierDetail
-ClassOrderSupplier o-- ClassDeliveryStatus
-classCategory o-- ClassItems : contains
-ClassItems o-- ClassStockTransaction : 
-ClassItems o-- ClassOrderSupplierDetail
-ClassItems o-- ClassRequisitionDetail
+ClassSupplier o-- ClassSupplierItem : contains
+ClassDeliveryStatus o-- ClassOrderSupplier : has
+ClassOrderSupplier *-- ClassOrder : consistsof
+ClassOrderSupplierDetail *-- ClassOrderSupplier :consistsof
+classCategory o-- ClassItems :contains
+ClassOrderSupplierDetail o-- ClassItems : Contains
+ClassSupplierItem o-- ClassItems : contains
+ClassStockTransaction o-- ClassItems : has
+ClassInvoiceUploadStatus o-- ClassOrderSupplier : has
+ClassEmployee o-- ClassStockTransaction : has
+ClassDepartment o-- ClassEmployee : contains
+ClassItems o-- ClassStockVoucher : has
+ClassEmployee o-- CalssDepartmentRepresentative : has
+ClassEmployee o-- ClassRequisition : has
+ClassItems o-- ClassRequisitionDetail : contains
+ClassRequisition o-- ClassRequisitionDetail : Contains
+ClassRequisition o-- ClassDisburesement : contains
+ClassDisburesementDuty o-- ClassDisburesement : has
+ClassDisburesement o-- ClassDisburesementDetails: contains
+ClassRequisitionDetail o-- ClassDisburesementDetails : has
+ClassEmployee o-- ClassAuthority : has
+ClassAuthority o-- ClassRequisition : contains
+ClassApprovalStatus o-- ClassRequisition : has
+ClassRetrievalStatus o-- ClassRequisition : has
 
 
 @enduml

@@ -153,7 +153,11 @@ Interface DepartmentService <<Service>> {
 Interface ReportService <<Service>>{
 
 + ReportResponsePayload: GenerateReorderCostReport(ReorderRequestPayload payload)
-+ ReportResponsePayload: PastThreeMonthsReport(List<OrderSupplierDetail> orderSupplierDetails);
-
++ ReportResponsePayload: PastThreeMonthsReport(List<OrderSupplierDetail> orderSupplierDetails)
++ ReportResponsePayload: OneMonthReport(List<OrderSupplierDetail> orderSupplierDetails,int month)
++ ReportResponsePayload: GenerateRequisitionCostReport(RequisitionRequestPayload payload)
++ ReportResponsePayload: PastThreeMonthsReport(List<RequisitionDetail> requisitionDetails)
++ ReportResponsePayload: OneMonthReport(List<RequisitionDetail> requisitionDetails, int month)
++ ReportResponsePayload: GenerateRequisitionItemReport(RequisitionItemPayload payload)
 }
 @enduml
