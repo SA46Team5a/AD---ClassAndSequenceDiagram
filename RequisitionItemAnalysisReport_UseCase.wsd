@@ -1,0 +1,67 @@
+@startuml
+
+Class RequisitionItemAnalysisReport <<Boundary>>{
+    +Generate()
+}
+Class ReportingController <<Control>> {
+    
+
+    +ActionResult : RequisitionItemAnalysisReport()
+    
+}
+
+
+Interface ReportService <<Service>>{
++ ReportResponsePayload: PastThreeMonthsReport(List<OrderSupplierDetail> orderSupplierDetails)
++ ReportResponsePayload: OneMonthReport(List<OrderSupplierDetail> orderSupplierDetails,int month)
++ ReportResponsePayload: PastThreeMonthsReport(List<RequisitionDetail> requisitionDetails)
++ ReportResponsePayload: OneMonthReport(List<RequisitionDetail> requisitionDetails, int month)
++ ReportResponsePayload: GenerateRequisitionItemReport(RequisitionItemPayload payload)
+}
+
+Class SupplierItem <<Entities>> {
++int: SupplierItemID
++string: SupplierID
++string: ItemID
++int: Rank
++decimal: Cost
+
+}
+
+Class Requisition <<Entities>> {
++int: RequisitionID
++string: EmployeeID
++DateTime: RequestedDate
++int: AuthorityID
++DateTime: ApproveDate
++int: RetrievalStatusID
++int: ApprovalStatusID
+}
+
+Class RequisitionDetail <<Entities>> {
++int: RequisitionDetatilsID
++int: RequisitionID
++string: ItemID
++int: Quantity
+}
+Class Item <<Entities>> {
++string: ItemID
++string: ItemName
++string: CategoryID
++string: UnitOfMeasure
+}
+Class Department <<Entities>> {
++string: DepartmentID
++string: DepartmentName
++int: CollectionPointID
++string: DepartmentHead
+}
+
+RequisitionItemAnalysisReport --> ReportingController
+ReportingController --> ReportService
+ReportService --> SupplierItem
+ReportService --> RequisitionDetail
+ReportService --> Item
+ReportService --> Requisition
+ReportService --> Department
+@enduml

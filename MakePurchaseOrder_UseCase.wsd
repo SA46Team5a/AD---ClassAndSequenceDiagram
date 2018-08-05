@@ -1,0 +1,145 @@
+@startuml
+Class ItemCatalogue <<Boundary>>{
+
+    +Search()
+    +Submit()
+    +Cancel()
+}
+
+Class OrderQuantity <<Boundary>>{
+    +Submit()
+    +Home()
+    }
+
+Class PlaceOrder <<Boundary>>{
+    +Submit()
+    +Home()
+}
+
+Class Summary <<Boundary>>{
+    +DownloadPO()
+    +Home()
+}
+
+
+Class CreateOrderController <<Control>> {
+    
+    +ActionResult : ItemCatalogue()
+    +ActionResult : ItemCatalogue(string Next, CombinedViewModel model,string Search) 
+    +ActionResult : OrderQuantity()
+    +ActionResult : OrderQuantity(CombinedViewModel model)
+    +ActionResult : PlaceOrder()
+    +List<Supplier>: AddSupplierListsInPlaceOrderView(List<SupplierItem> supplierItems)
+    +List<Item>: AddItemsInPlaceOrderView(List<SupplierItem> supplierItems)
+    +List<int>: AddReOrderItemQtyInPlaceOrderView(Dictionary<string, int> itemIdsAndItemQty, List<SupplierItem> supplierItems)
+    +ActionResult : PlaceOrder(CombinedViewModel model)
+    +ActionResult : OrderSummary(int id)
+    +void : CreatePurchaseOrders(int orderId)
+    +ActionResult: PrintPurchaseOrder(CombinedViewModel combinedViewModel)
+    +ActionResult : OrderSummary(CombinedViewModel model)
+    +FileResult: DownloadPurchaseOrders(CombinedViewModel combinedViewModel)
+    +ActionResult: SubmitInvoice()
+    +ActionResult: SubmitInvoice(CombinedViewModel model, HttpPostedFileBase file, string Sent, string Search, string radiobutton)
+
+}
+
+Interface OrderService {
+    --Retrieve--
+
+    +Order: GetOrder(int orderId)
+    +OrderSupplier: GetOrderSupplier(int orderSupplierId)
+    +OrderSupplierDetail: GetOrderSupplierDetail(int orderSupplierDetailId)
+    +List<ReorderDetail>: GetReorderDetails()
+    +List<Supplier>: GetSuppliers()
+    +List<SupplierItem>: GetSupplierItemsOfItemIds(List<String> itemIds)
+    +List<OrderSupplier>: GetOrderSuppliersOfOrder(int orderId)
+    +List<OrderSupplier>: GetOrdersServingOutstandingRequisitions(int reqDetailId)
+
+    --Create--
+   
+    +int: CreateOrderAndGetOrderId(Dictionary<string, int> itemAndQty, Dictionary<int, int> supplierItemsAndQty)
+    +OrderSupplier: CreateOrderSupplier(int orderId, string supplierId)
+    +OrderSupplierDetail: CreateOrderSupplierDetail(int orderSupplierId, SupplierItem si, int qty)
+    +void: AllocateQtyToSuppliers(Order order, Dictionary<int, int> supplierItemAndqty, int qty)
+
+    --Update--
+    +void: UpdateQtyRecievedOfOrderSupplierDetail(int orderSupplierDetailId, int qty)
+    +void: ConfirmDeliveryOfOrderSupplier(int orderSupplierId)
+    +void: ConfirmInvoiceUploadStatus(int orderSupplierId)
+
+   }
+
+   Class Category <<Entities>> {
++int: CategoryID
++string: CategoryName
+}
+Class Item <<Entities>> {
++string: ItemID
++string: ItemName
++string: CategoryID
++string: UnitOfMeasure
+}
+
+Class Order <<Entities>> {
++int: OrderID
++DateTime: OrderDate
+}
+
+Class OrderSupplier <<Entities>> {
++int: OrderSupplierID
++int: OrderID
++string: SupplierID
++int: DeliveryStatusID
++int: InvoiceUploadStatusID
+
+}
+
+Class OrderSupplierDetail <<Entities>> {
++int: OrderSupplierDetailID
++int: OrderSupplierID
++string: ItemID
++int: Quantity
++decimal: UnitCost
++int: ActualQuantityReceived
+}
+
+Class ReorderDetail <<Entities>> {
++string: ItemID
++int: ReorderLevel
++int: ReorderQuantity
++string: ItemName
++int: QtyInStock
+}
+Class Supplier <<Entities>> {
++string: SupplierID
++string: SupplierName
++string: ContactName
++string: PhoneNumber
++string: FaxNumber
++string: Address
+}
+
+Class SupplierItem <<Entities>> {
++int: SupplierItemID
++string: SupplierID
++string: ItemID
++int: Rank
++decimal: Cost
+
+}
+
+ItemCatalogue --> CreateOrderController
+OrderQuantity --> CreateOrderController
+PlaceOrder --> CreateOrderController
+Summary --> CreateOrderController
+CreateOrderController --> OrderService
+OrderService --> Category
+OrderService --> Item
+OrderService --> Supplier
+OrderService --> OrderSupplier
+OrderService --> OrderSupplierDetail
+OrderService --> Order
+OrderService --> ReorderDetail
+OrderService --> SupplierItem
+
+@enduml

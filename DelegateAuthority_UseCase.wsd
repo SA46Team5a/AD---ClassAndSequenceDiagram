@@ -1,0 +1,72 @@
+@startuml
+
+Class DelegateAuthority <<Boundary>>{
+
+    +Submit()
+    +Home()
+    +Rescind()
+    +EmailNotification()
+}
+Class DelegateAuthorityController <<Control>> {
+    
+    +ActionResult : DelegateAuthority(Department dep)
+    +ActionResult : DelegateAuthority(CombinedViewModel model)
+}
+
+Class EmailNotificationController <<Control>> {
+    
+    +void: SendToLostApproveAuthority()
+    +void: SendToApproveAuthority()
+    +void: SendEmailToDelegatePerson()
+    +void: SendEmailToDelegatePerson(string StartDate, string EndDate)
+    +void: SendEmailForChangeAuthorityDuration(string StartDate, string EndDate)
+    
+}
+
+Interface DepartmentService <<Service>> {
+    --Retrieve--   
+    +Authority: GetCurrentAuthority(string dept)  
+    +Employee: GetEmployeeById(string emp)
+    +List<Employee>: GetEmployeesOfDepartment(string dep)
+    +string: GetDepartmentID(string emp)
+    +Employee: GetEmployeeObject(string empName)
+
+    --Create--
+   
+    +void: AddAuthority(Employee emp, DateTime startdate, DateTime enddate)
+
+    --Update--
+    +void: UpdateAuthority(Authority auth)
+    +void: RescindAuthority(Authority auth)
+  
+}
+
+Class Authority <<Entities>> {
++int: AuthorityID
++string: EmployeeID
++DateTime: StartDate
++DateTime: EndDate
+}
+
+Class Department <<Entities>> {
++string: DepartmentID
++string: DepartmentName
++int: CollectionPointID
++string: DepartmentHead
+}
+
+Class Employee <<Entities>> {
++string: EmployeeID
++string: DepartmentID
++string: EmployeeName
++string: PhoneNumber
++string: EmailID
++strign: Sex
+}
+DelegateAuthority --> DelegateAuthorityController
+DelegateAuthority --> EmailNotificationController
+DelegateAuthorityController --> DepartmentService
+DepartmentService --> Authority
+DepartmentService --> Employee
+DepartmentService --> Department
+@enduml

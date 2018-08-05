@@ -1,0 +1,67 @@
+@startuml
+
+Class RequisitionReorderCostAnalysisReport <<Boundary>>{
+    +Generate()
+}
+Class ReportingController <<Control>> {
+   +ActionResult : ReorderCostAnalysisReport()    
+}
+
+
+Interface ReportService <<Service>>{
+
++ ReportResponsePayload: GenerateReorderCostReport(ReorderRequestPayload payload)
++ ReportResponsePayload: PastThreeMonthsReport(List<OrderSupplierDetail> orderSupplierDetails)
++ ReportResponsePayload: OneMonthReport(List<OrderSupplierDetail> orderSupplierDetails,int month)
++ ReportResponsePayload: PastThreeMonthsReport(List<RequisitionDetail> requisitionDetails)
++ ReportResponsePayload: OneMonthReport(List<RequisitionDetail> requisitionDetails, int month)
+}
+
+Class Supplier <<Entities>> {
++string: SupplierID
++string: SupplierName
++string: ContactName
++string: PhoneNumber
++string: FaxNumber
++string: Address
+}
+
+
+Class Item <<Entities>> {
++string: ItemID
++string: ItemName
++string: CategoryID
++string: UnitOfMeasure
+}
+
+Class Order <<Entities>> {
++int: OrderID
++DateTime: OrderDate
+}
+
+Class OrderSupplier <<Entities>> {
++int: OrderSupplierID
++int: OrderID
++string: SupplierID
++int: DeliveryStatusID
++int: InvoiceUploadStatusID
+
+}
+
+Class OrderSupplierDetail <<Entities>> {
++int: OrderSupplierDetailID
++int: OrderSupplierID
++string: ItemID
++int: Quantity
++decimal: UnitCost
++int: ActualQuantityReceived
+}
+
+RequisitionReorderCostAnalysisReport --> ReportingController
+ReportingController --> ReportService
+ReportService --> Supplier
+ReportService --> Order
+ReportService --> Item
+ReportService --> OrderSupplier
+ReportService --> OrderSupplierDetail
+@enduml

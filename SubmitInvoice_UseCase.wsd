@@ -1,0 +1,71 @@
+@startuml
+
+Class SubmitInvoice <<Boundary>>{
+ +Search()
+ +Validate()
+ +file()
+ +Submit()
+}
+
+Class CreateOrderController <<Control>> {
+        
+    +ActionResult: PrintPurchaseOrder(CombinedViewModel combinedViewModel)
+    +ActionResult : OrderSummary(CombinedViewModel model)
+    +FileResult: DownloadPurchaseOrders(CombinedViewModel combinedViewModel)
+    +ActionResult: SubmitInvoice()
+    +ActionResult: SubmitInvoice(CombinedViewModel model, HttpPostedFileBase file, string Sent, string Search, string radiobutton)
+
+}
+
+Interface OrderService {
+
+    +void: ConfirmDeliveryOfOrderSupplier(int orderSupplierId)
+    +void: ConfirmInvoiceUploadStatus(int orderSupplierId)
+
+   }
+
+Class Order <<Entities>> {
++int: OrderID
++DateTime: OrderDate
+}
+
+Class OrderSupplier <<Entities>> {
++int: OrderSupplierID
++int: OrderID
++string: SupplierID
++int: DeliveryStatusID
++int: InvoiceUploadStatusID
+
+}
+
+Class OrderSupplierDetail <<Entities>> {
++int: OrderSupplierDetailID
++int: OrderSupplierID
++string: ItemID
++int: Quantity
++decimal: UnitCost
++int: ActualQuantityReceived
+}
+Class InvoiceUploadStatus <<Entities>> {
++int: InvoiceUploadStatusID
++string: InvoiceUploadStatusName
+}
+
+   Class Supplier <<Entities>> {
++string: SupplierID
++string: SupplierName
++string: ContactName
++string: PhoneNumber
++string: FaxNumber
++string: Address
+}
+
+SubmitInvoice --> CreateOrderController
+CreateOrderController --> OrderService
+OrderService --> Supplier
+OrderService --> OrderSupplier
+OrderService --> Order
+OrderService --> InvoiceUploadStatus
+OrderService --> OrderSupplierDetail
+
+@enduml

@@ -11,17 +11,16 @@ RestockInventoryActivity->OrderAPI: 3.GetOrderDetailsofOrderAndSupplier()
 activate OrderAPI
 OrderAPI->OrderService: 4.GetOrderDetailsofOrderAndSupplier()
 activate OrderService
-OrderAPI->RestockInventoryActivity: 5.DisplayListOFItems()
 deactivate OrderService
 deactivate OrderAPI
 StoreClerk->RestockInventoryActivity: 6.ADD()
+note right:Dialog box will appear to add quantity
 StoreClerk->RestockInventoryActivity: 7.AddQuantity()
 StoreClerk->RestockInventoryActivity: 8. OK()
 RestockInventoryActivity->OrderAPI: 9.AddStock()
 activate OrderAPI
 OrderAPI->OrderService: 10.UpdateQuantityReceived()
 activate OrderService
-OrderAPI->RestockInventoryActivity: 11.DisplayRestockInventoryActivity
 deactivate OrderAPI
 
 

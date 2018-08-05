@@ -1,0 +1,93 @@
+@startuml
+
+Class ReceivedPurchaseOrderList <<Boundary>>{
+    +ViewDetails()
+}
+
+Class ReceivedPurchaseOrderDetails <<Boundary>>{
+    +Home()
+    +Back()
+}
+Class ViewReceivedOrdersListController <<Control>> {
+    
+    +ActionResult : ReceivedPurchaseOrdersList()
+    +ActionResult : PurchaseOrderSummary(int id)
+   
+}
+
+Interface OrderService {
+    
+    +Order: GetOrder(int orderId)
+    +OrderSupplier: GetOrderSupplier(int orderSupplierId)
+    +OrderSupplierDetail: GetOrderSupplierDetail(int orderSupplierDetailId)
+    +List<ReorderDetail>: GetReorderDetails()
+    +List<Supplier>: GetSuppliers()
+    +List<SupplierItem>: GetSupplierItemsOfItemIds(List<String> itemIds)
+    +List<OrderSupplier>: GetOrderSuppliersOfOrder(int orderId)
+    +List<OrderSupplier>: GetOrdersServingOutstandingRequisitions(int reqDetailId)
+     
+   }
+
+   
+Class Supplier <<Entities>> {
++string: SupplierID
++string: SupplierName
++string: ContactName
++string: PhoneNumber
++string: FaxNumber
++string: Address
+}
+
+Class SupplierItem <<Entities>> {
++int: SupplierItemID
++string: SupplierID
++string: ItemID
++int: Rank
++decimal: Cost
+
+}
+Class Order <<Entities>> {
++int: OrderID
++DateTime: OrderDate
+}
+
+Class OrderSupplier <<Entities>> {
++int: OrderSupplierID
++int: OrderID
++string: SupplierID
++int: DeliveryStatusID
++int: InvoiceUploadStatusID
+
+}
+
+Class OrderSupplierDetail <<Entities>> {
++int: OrderSupplierDetailID
++int: OrderSupplierID
++string: ItemID
++int: Quantity
++decimal: UnitCost
++int: ActualQuantityReceived
+}
+Class Item <<Entities>> {
++string: ItemID
++string: ItemName
++string: CategoryID
++string: UnitOfMeasure
+}
+Class Category <<Entities>> {
++int: CategoryID
++string: CategoryName
+}
+
+ReceivedPurchaseOrderList --> ViewReceivedOrdersListController
+ReceivedPurchaseOrderDetails -->ViewReceivedOrdersListController
+ViewReceivedOrdersListController --> OrderService
+
+OrderService --> Supplier
+OrderService --> SupplierItem
+OrderService --> Order
+OrderService --> OrderSupplier
+OrderService --> OrderSupplierDetail
+OrderService --> Item
+OrderService --> Category
+@enduml

@@ -1,0 +1,75 @@
+@startuml
+
+Class AppointDepartmentRepresentative <<Boundary>>{
+    +Submit()
+    +Home()
+    +EmailNotification()
+}
+
+Class AppointDepartmentRepController <<Control>> {
+    
+    +ActionResult : AppointDepartmentRep(Department dep)
+    +ActionResult : AppointDepartmentRep(CombinedViewModel model, string confirm)
+
+}
+
+Class EmailNotificationController <<Control>> {
+   
+    +void: SendEmailToAppointingDepRep()
+    +void: SendEmailToLoseDepRep()    
+    +void: SendEmailForChangeCollectionPoint(string DepartmentName, string CollectionPoint, string passcode)
+      
+}
+
+Interface DepartmentService <<Service>>{
+    --Retrieve--   
+    +DepartmentRepresentative: GetCurrentDepartmentRepresentative(string dept)
+    +CollectionPoint: GetCollectionPointOfEmployee(string emp)
+    +bool: VerifyPassCode(string passcode, string dep)
+    +Employee: GetEmployeeById(string emp)
+    +List<Employee>: GetEmployeesOfDepartment(string dep)
+    +string: GetDepartmentID(string emp)
+    +Employee: GetEmployeeObject(string empName)
+
+    --Update--
+   
+    +void: UpdateDepartmentRepresentative(int currentDeptRepId, string newRepEmpId)
+    +void: UpdateCollectionPoint(string dep, int cp)
+    +string: GenerateNewPasscode(string dep)
+
+}
+
+Class Employee <<Entities>> {
++string: EmployeeID
++string: DepartmentID
++string: EmployeeName
++string: PhoneNumber
++string: EmailID
++strign: Sex
+}
+
+Class DepartmentRepresentative <<Entities>> {
++int: DeptRepID
++string: EmployeeID
++DateTime: StartDate
++DateTime: EndDate
++string: Passcode
+}
+
+Class Department <<Entities>> {
++string: DepartmentID
++string: DepartmentName
++int: CollectionPointID
++string: DepartmentHead
+}
+
+AppointDepartmentRepresentative --> AppointDepartmentRepController
+AppointDepartmentRepresentative --> EmailNotificationController
+AppointDepartmentRepController --> DepartmentService
+DepartmentService --> Employee
+DepartmentService --> DepartmentRepresentative
+DepartmentService --> Department
+
+
+
+@enduml

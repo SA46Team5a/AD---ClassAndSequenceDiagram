@@ -1,0 +1,126 @@
+@startuml
+Class AppointDepartmentRepController <<Control>> {
+    
+    +ActionResult : AppointDepartmentRep(Department dep)
+    +ActionResult : AppointDepartmentRep(CombinedViewModel model, string confirm)
+
+}
+
+Class ApproveRequisitionController <<Control>> {
+    
+    +ActionResult : ApproveRequisitionForm()
+    +ActionResult : ApproveRequisitionForm(SpecialModel model, int? Approve, int? Reject)
+    
+}
+
+Class ChangeCollectionPoint <<Control>> {
+    
+    +ActionResult : ChangeCollectionPoint(Department dep)
+    +ActionResult : ChangeCollectionPoint(CombinedViewModel model)
+    
+}
+
+Class CreateOrderController <<Control>> {
+    
+    +ActionResult : ItemCatalogue()
+    +ActionResult : ItemCatalogue(string Next, CombinedViewModel model,string Search) 
+    +ActionResult : OrderQuantity()
+    +ActionResult : OrderQuantity(CombinedViewModel model)
+    +ActionResult : PlaceOrder()
+    +List<Supplier>: AddSupplierListsInPlaceOrderView(List<SupplierItem> supplierItems)
+    +List<Item>: AddItemsInPlaceOrderView(List<SupplierItem> supplierItems)
+    +List<int>: AddReOrderItemQtyInPlaceOrderView(Dictionary<string, int> itemIdsAndItemQty, List<SupplierItem> supplierItems)
+    +ActionResult : PlaceOrder(CombinedViewModel model)
+    +ActionResult : OrderSummary(int id)
+    +void : CreatePurchaseOrders(int orderId)
+    +ActionResult: PrintPurchaseOrder(CombinedViewModel combinedViewModel)
+    +ActionResult : OrderSummary(CombinedViewModel model)
+    +FileResult: DownloadPurchaseOrders(CombinedViewModel combinedViewModel)
+    +ActionResult: SubmitInvoice()
+    +ActionResult: SubmitInvoice(CombinedViewModel model, HttpPostedFileBase file, string Sent, string Search, string radiobutton)
+
+}
+
+Class DelegateAuthorityController <<Control>> {
+    
+    +ActionResult : DelegateAuthority(Department dep)
+    +ActionResult : DelegateAuthority(CombinedViewModel model)
+}
+
+Class EmailNotificationController <<Control>> {
+    +void: SendEmailToDeptHeadToApproveRequisitions(string deptId, int reqId)
+    +void: SendEmailToAppointingDepRep()
+    +void: SendEmailToLoseDepRep()
+    +void: SendToLostApproveAuthority()
+    +void: SendToApproveAuthority()
+    +void: SendEmailToDelegatePerson()
+    +void: SendEmailToDelegatePerson(string StartDate, string EndDate)
+    +void: SendEmailForChangeAuthorityDuration(string StartDate, string EndDate)
+    +void: SendEmailForChangeCollectionPoint(string DepartmentName, string CollectionPoint, string passcode)
+    +void: ApprovStoreAdjustment(string name)
+    +void: SendtoApprovStoreAdjustment(string name)
+    +void: SendtoConfirmDisbursement(string Repname)
+    +void: SendtoConfirmDisbursement_Mobile(string Repname)
+    +void: SubmitStoreAdhustment_Mobile(string Manager)
+    
+}
+
+Class ReportingController <<Control>> {
+    
+    +ActionResult : ReorderCostAnalysisReport()
+    +ActionResult : RequisitionCostAnalysisReport()
+    +ActionResult : RequisitionItemAnalysisReport()
+    
+}
+
+Class RequisitionController <<Control>> {
+    
+    +ActionResult : ViewStationeryCatalogue()
+    +ActionResult : ViewStationeryCatalogue(CombinedViewModel model)
+    +ActionResult : StationeryRequestForm()
+    +ActionResult : GoToStationaryRequestForm()
+    +ActionResult : StationeryRequestForm(CombinedViewModel model)
+    +ActionResult : ResubmitStationaryRequestForm()
+    +ActionResult : ResubmitStationaryRequestForm(CombinedViewModel model)
+    +ActionResult : Delete(int id)
+}
+
+
+Class StockAdjustmentController <<Control>> {
+    
+    +ActionResult : ManageMonthlyStockDiscrepancy()
+    +ActionResult : ManageMonthlyStockDiscrepancy(CombinedViewModel model)
+ }
+
+Class TrackOutstandingRequisitionController <<Control>> {
+    
+    +ActionResult : TrackOutstandingRequisition()
+    +ActionResult : TrackOutstandingRequisition(CombinedViewModel model)    
+ 
+}
+
+Class ViewPastRequestController <<Control>> {
+    
+    +ActionResult : SearchRequisitionForm(string id)
+    +ActionResult : DeleteRequisitionForm(int id)
+    +ActionResult : LoadSearchRequisitionForm(FormCollection form)
+    +ActionResult : ProcessedStationeryRequestForm(int id)
+    +ActionResult : EditSubmittedStationeryRequestForm(int id)
+    +ActionResult : ResubmitStationaryRequestForm(CombinedViewModel model)
+    +ActionResult : DeleteRequestedItems(int id)
+    +ActionResult : ViewStationeryCatalogue()
+    +ActionResult : ViewStationeryRequestForm()
+    +ActionResult : ViewStationeryCatalogue(CombinedViewModel model) 
+}
+
+Class ViewReceivedOrdersListController <<Control>> {
+    
+    +ActionResult : ReceivedPurchaseOrdersList()
+    +ActionResult : PurchaseOrderSummary(int id)
+   
+}
+
+
+
+
+@enduml

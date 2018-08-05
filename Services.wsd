@@ -32,10 +32,10 @@ Interface RequisitionService <<Service>> {
     +void: AddNewRequisitionDetail(int reqId, string itemId, int qtyRequested)
 
     --Update--
-    ' Loops through list and calls updateRequsitionDetail
+   
     +void: EditRequisitionDetailQtys(Disctionary<int, int> reqDetailIdAndQtys)
     +void: EditRequisitionDetailQty(int reqDetailId, int qty)
-    ' At submit, call createNewRequisitionForEmployee(Employee emp)
+   
     +void: SubmitRequsition(int reqId)
     +void: RejectRequisition(int reqId, int authId)
     +void: ApproveRequisition(int reqId, int authId)

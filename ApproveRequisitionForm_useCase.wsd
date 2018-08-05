@@ -1,0 +1,69 @@
+@startuml
+
+Class ApproveRequisitionForm <<Boundary>>{
+    +Approve()
+    +Reject()
+    +Home()
+    +EmailNotification()
+}
+
+Class ApproveRequisitionController <<Control>> {
+    
+    +ActionResult : ApproveRequisitionForm()
+    +ActionResult : ApproveRequisitionForm(SpecialModel model, int? Approve, int? Reject)
+    
+}
+
+Class Item <<Entities>> {
++string: ItemID
++string: ItemName
++string: CategoryID
++string: UnitOfMeasure
+}
+Interface RequisitionService <<Service>> {
+    --Retrieve--
+   
+    +Requisition: GetRequisitionById(int reqId)
+    +RequisitionDetail: GetRequisitionDetailById(int reqDetailId)
+    +List<Requisition>: GetRequisitionsOfEmployee(string empId)
+    +List<Requisition>: GetPendingRequisitionOfDep(string depId)
+    +List<RequisitionDetail>: GetRequisitionDetails(int reqId)
+    
+    --Update--
+   
+    +void: SubmitRequsition(int reqId)
+    +void: RejectRequisition(int reqId, int authId)
+    +void: ApproveRequisition(int reqId, int authId)
+}
+
+Class Category <<Entities>> {
++int: CategoryID
++string: CategoryName
+}
+
+Class Requisition <<Entities>> {
++int: RequisitionID
++string: EmployeeID
++DateTime: RequestedDate
++int: AuthorityID
++DateTime: ApproveDate
++int: RetrievalStatusID
++int: ApprovalStatusID
+}
+
+Class RequisitionDetail <<Entities>> {
++int: RequisitionDetatilsID
++int: RequisitionID
++string: ItemID
++int: Quantity
+}
+
+
+RequisitionService --> Item
+RequisitionService --> Requisition
+ApproveRequisitionForm --> ApproveRequisitionController
+ApproveRequisitionController --> RequisitionService
+RequisitionService --> Category
+RequisitionService --> RequisitionDetail
+
+@enduml

@@ -1,0 +1,53 @@
+@startuml
+
+
+Class ChangeCollectionPointView <<Boundary>>{
+
+    +Submit()
+    +Home()
+}
+
+Class ChangeCollectionPoint <<Control>> {
+    
+    +ActionResult : ChangeCollectionPoint(Department dep)
+    +ActionResult : ChangeCollectionPoint(CombinedViewModel model)
+    
+}
+
+Interface DepartmentService <<Service>> {
+    --Retrieve--
+   
+    +DepartmentRepresentative: GetCurrentDepartmentRepresentative(string dept)
+    +CollectionPoint: GetCollectionPointOfEmployee(string emp)
+    +bool: VerifyPassCode(string passcode, string dep)
+    +Employee: GetEmployeeById(string emp)
+    +List<Employee>: GetEmployeesOfDepartment(string dep)
+    +string: GetDepartmentID(string emp)
+    +Employee: GetEmployeeObject(string empName)
+
+     --Update--
+  
+    +void: UpdateDepartmentRepresentative(int currentDeptRepId, string newRepEmpId)
+    +void: UpdateCollectionPoint(string dep, int cp)
+    +string: GenerateNewPasscode(string dep)
+
+}
+
+Class Department <<Entities>> {
++string: DepartmentID
++string: DepartmentName
++int: CollectionPointID
++string: DepartmentHead
+}
+
+Class CollectionPoint <<Entities>> {
++int: CollectionPointID
++string: CollectionPointName
+}
+
+ChangeCollectionPointView --> ChangeCollectionPoint
+ChangeCollectionPoint --> DepartmentService
+DepartmentService --> Department
+DepartmentService --> CollectionPoint
+
+@enduml

@@ -1,0 +1,86 @@
+@startuml
+
+Class ManageMonthlyStockDiscrepancy <<Boundary>>{
+    +Submit()
+    +Home()
+}
+
+
+Class StockAdjustmentController <<Control>> {
+    
+    +ActionResult : ManageMonthlyStockDiscrepancy()
+    +ActionResult : ManageMonthlyStockDiscrepancy(CombinedViewModel model)
+ }
+
+ Interface StockManagementService <<Service>> {
+    --Retrieve--
+   
+    +List<StockVoucher>: GetOpenVouchers()        
+    +List<Supplier>: GetSupplierOfItem(string itemId)
+    +List<StockCountItem>: GetStockCountItemsByCategory(int cat)
+    +float: GetItemCost(string itemID)
+
+      --Update--
+    +void: SubmitVouchers()
+    +void: CloseVoucher(int discrepancyId, string approvedBy, string reason)
+   
+}
+
+Class Category <<Entities>> {
++int: CategoryID
++string: CategoryName
+}
+Class Item <<Entities>> {
++string: ItemID
++string: ItemName
++string: CategoryID
++string: UnitOfMeasure
+}
+
+
+Class StockCountItem <<Entities>> {
++string: ItemID
++string: ItemName
++string: UnitOfMeasure
++int: QtyInStock
+}
+
+Class StockTransaction <<Entities>> {
++int: TransactionID
++string: ItemID
++string: Description
++int: Adjustment
++string: EmployeeID
+}
+
+Class StockVoucher <<Entities>> {
++int: DiscrepancyID
++string: ItemID
++int: OriginalCount
++int: ActualCount
++decimal: ItemCost
++string: Reason
++string: RaisedBy
++string: ApprovedBy
++DateTime: RaisedByDate
++DateTime: ApprovedDate
+}
+
+Class SupplierItem <<Entities>> {
++int: SupplierItemID
++string: SupplierID
++string: ItemID
++int: Rank
++decimal: Cost
+
+}
+
+ManageMonthlyStockDiscrepancy --> StockAdjustmentController
+StockAdjustmentController --> StockManagementService
+StockManagementService --> Category
+StockManagementService --> Item
+StockManagementService --> SupplierItem
+StockManagementService --> StockCountItem
+StockManagementService --> StockVoucher
+StockManagementService --> StockTransaction
+@enduml

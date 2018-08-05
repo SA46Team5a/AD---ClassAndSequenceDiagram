@@ -1,0 +1,76 @@
+Class ViewStationeryCatogue <<Boundary>> {   
+    +SearchClick()
+    +ValidateI()
+    +Submit()
+}
+
+Class StaioneryRequestForm <<Boundary>>{
+ +Delete()
+ +BtnBack()
+ +Update()
+ +Submit()
+ +EmailNotification()
+}
+
+Class RequisitionController <<Control>> {
+    
+    +ActionResult : ViewStationeryCatalogue()
+    +ActionResult : ViewStationeryCatalogue(CombinedViewModel model)
+    +ActionResult : StationeryRequestForm()
+    +ActionResult : GoToStationaryRequestForm()
+    +ActionResult : StationeryRequestForm(CombinedViewModel model)
+    +ActionResult : ResubmitStationaryRequestForm()
+    +ActionResult : ResubmitStationaryRequestForm(CombinedViewModel model)
+    +ActionResult : Delete(int id)
+}
+
+Interface RequisitionService <<Service>> {
+    --Retrieve--
+    +Requisition: GetUnsubmittedRequisitionOfEmployee(string) empId)  
+    +Requisition: GetRequisitionById(int reqId)
+    +RequisitionDetail: GetRequisitionDetailById(int reqDetailId)
+    +List<Requisition>: GetRequisitionsOfEmployee(string empId)
+    +List<Requisition>: GetPendingRequisitionOfDep(string depId)
+    +List<RequisitionDetail>: GetRequisitionDetails(int reqId)
+    
+    --Create--
+    +Requisition: CreateNewRequisitionForEmployee(string empId)
+    +void: AddNewRequisitionDetails(Requisition req, Dictionary<string, int> itemAndQty)
+    +void: AddNewRequisitionDetail(Requisition req, RequisitionDetail rd)
+    +void: AddNewRequisitionDetail(int reqId, string itemId, int qtyRequested)
+
+    --Update--
+    +void: EditRequisitionDetailQtys(Disctionary<int, int> reqDetailIdAndQtys)
+    +void: EditRequisitionDetailQty(int reqDetailId, int qty)
+    +void: SubmitRequsition(int reqId)
+    +void: RejectRequisition(int reqId, int authId)
+    +void: ApproveRequisition(int reqId, int authId)
+
+    --Delete--
+    +void: DeleteRequisition(int reqId)
+    +void: DeleteRequisitionDetail(int reqDetailId)
+}
+
+
+Class Requisition <<Entities>> {
++int: RequisitionID
++string: EmployeeID
++DateTime: RequestedDate
++int: AuthorityID
++DateTime: ApproveDate
++int: RetrievalStatusID
++int: ApprovalStatusID
+}
+
+Class RequisitionDetail <<Entities>> {
++int: RequisitionDetatilsID
++int: RequisitionID
++string: ItemID
++int: Quantity
+}
+
+Class ApprovalStatus <<Entities>> {
++int: ApprovalStatusID
++string: ApprovalStatusName
+
+}

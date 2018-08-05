@@ -1,0 +1,129 @@
+@startuml
+Class OutstandingRequisitionTracking <<Boundary>>{
+
+    +Search()
+    +Validate()
+    +ReOrder()
+}
+
+Class TrackOutstandingRequisitionController <<Control>> {
+    
+    +ActionResult : TrackOutstandingRequisition()
+    +ActionResult : TrackOutstandingRequisition(CombinedViewModel model)    
+ 
+}
+
+Interface OrderService {
+    --Retrieve--
+    ' Loops through and calls the second method
+    +Order: GetOrder(int orderId)
+    +OrderSupplier: GetOrderSupplier(int orderSupplierId)
+    +OrderSupplierDetail: GetOrderSupplierDetail(int orderSupplierDetailId)
+    +List<ReorderDetail>: GetReorderDetails()
+    +List<Supplier>: GetSuppliers()
+    +List<SupplierItem>: GetSupplierItemsOfItemIds(List<String> itemIds)
+    +List<OrderSupplier>: GetOrderSuppliersOfOrder(int orderId)
+    +List<OrderSupplier>: GetOrdersServingOutstandingRequisitions(int reqDetailId)
+
+    --Create--
+    ' createNewOrder will call addOrder, addOrderSupplier and addOrderSupplierDetails
+    +int: CreateOrderAndGetOrderId(Dictionary<string, int> itemAndQty, Dictionary<int, int> supplierItemsAndQty)
+    +OrderSupplier: CreateOrderSupplier(int orderId, string supplierId)
+    +OrderSupplierDetail: CreateOrderSupplierDetail(int orderSupplierId, SupplierItem si, int qty)
+    +void: AllocateQtyToSuppliers(Order order, Dictionary<int, int> supplierItemAndqty, int qty)
+
+    --Update--
+    +void: UpdateQtyRecievedOfOrderSupplierDetail(int orderSupplierDetailId, int qty)
+    +void: ConfirmDeliveryOfOrderSupplier(int orderSupplierId)
+    +void: ConfirmInvoiceUploadStatus(int orderSupplierId)
+
+   }
+Interface DepartmentService <<Service>> {
+    --Retrieve--
+    ' Get authorised person based on current date
+    +Authority: GetCurrentAuthority(string dept)
+    +DepartmentRepresentative: GetCurrentDepartmentRepresentative(string dept)
+    +CollectionPoint: GetCollectionPointOfEmployee(string emp)
+    +bool: VerifyPassCode(string passcode, string dep)
+    +Employee: GetEmployeeById(string emp)
+    +List<Employee>: GetEmployeesOfDepartment(string dep)
+    +string: GetDepartmentID(string emp)
+    +Employee: GetEmployeeObject(string empName)
+
+    --Create--
+    ' Add emp as Authority with start and end date, and add Dep Head with start date = emp end date + 1
+    +void: AddAuthority(Employee emp, DateTime startdate, DateTime enddate)
+
+    --Update--
+    +void: UpdateAuthority(Authority auth)
+    +void: RescindAuthority(Authority auth)
+    +void: UpdateDepartmentRepresentative(int currentDeptRepId, string newRepEmpId)
+    +void: UpdateCollectionPoint(string dep, int cp)
+    +string: GenerateNewPasscode(string dep)
+
+}
+
+Class Requisition <<Entities>> {
++int: RequisitionID
++string: EmployeeID
++DateTime: RequestedDate
++int: AuthorityID
++DateTime: ApproveDate
++int: RetrievalStatusID
++int: ApprovalStatusID
+}
+
+Class RequisitionDetail <<Entities>> {
++int: RequisitionDetatilsID
++int: RequisitionID
++string: ItemID
++int: Quantity
+}
+Class Item <<Entities>> {
++string: ItemID
++string: ItemName
++string: CategoryID
++string: UnitOfMeasure
+}
+
+Class Department <<Entities>> {
++string: DepartmentID
++string: DepartmentName
++int: CollectionPointID
++string: DepartmentHead
+}
+
+Class OrderSupplierDetail <<Entities>> {
++int: OrderSupplierDetailID
++int: OrderSupplierID
++string: ItemID
++int: Quantity
++decimal: UnitCost
++int: ActualQuantityReceived
+}
+
+Class RetrievalStatus <<Entities>> {
++int: RetrievalStatusID
++string: RetrievalStatusName
+}
+Class OustandingRequisitionView <<Entities>> {
++int: RequisitionID
++DateTime: ApproveDate
++int: RequisitionDetatilsID
++string: ItemID
++int: OutstandingQuantity
+}
+
+
+OutstandingRequisitionTracking --> TrackOutstandingRequisitionController
+TrackOutstandingRequisitionController --> OrderService
+TrackOutstandingRequisitionController --> DepartmentService
+DepartmentService --> Department
+DepartmentService --> Requisition
+DepartmentService --> RequisitionDetail
+OrderService -->Item
+OrderService --> OrderSupplierDetail
+OrderService --> RetrievalStatus
+OrderService --> OustandingRequisitionView
+
+@enduml
