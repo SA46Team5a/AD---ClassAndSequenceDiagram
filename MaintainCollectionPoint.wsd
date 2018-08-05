@@ -1,4 +1,6 @@
 @startuml
+
+title "Department Representative -> Maintain Collection Point"
 actor DepartmentRepresentative
 boundary ChangeCollectionPointView
 control HomeController

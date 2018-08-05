@@ -1,4 +1,5 @@
 @startuml
+title "Stock Supervisor/Manager -> Manage Discrepancy"
 
 Class ManageMonthlyStockDiscrepancy <<Boundary>>{
     +Submit()

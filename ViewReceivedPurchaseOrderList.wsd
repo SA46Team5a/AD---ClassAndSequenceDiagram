@@ -1,4 +1,5 @@
 @startuml
+title "Store Clerk -> View Purchase Order History"
 actor StoreClerk
 boundary ReceivedPurchaseOrderListView
 control HomeController

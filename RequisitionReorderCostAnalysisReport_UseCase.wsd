@@ -1,4 +1,5 @@
 @startuml
+title "Stock Clerk -> Generate Reorder Cost Analysis"
 
 Class RequisitionReorderCostAnalysisReport <<Boundary>>{
     +Generate()

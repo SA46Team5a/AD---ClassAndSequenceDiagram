@@ -1,4 +1,6 @@
 @startuml
+title "Employee -> View Request Form"
+
 Class ViewSubmittedRequisitionForm <<Boundary>>{
  +btnSearch()
  +View()
@@ -82,5 +84,13 @@ Class RequisitionDetail <<Entities>> {
 +string: ItemID
 +int: Quantity
 }
+
+ViewSubmittedRequisitionForm --> RequisitionController
+ResubmitStationeryRequestForm --> RequisitionController
+ViewStationeryRequestForm --> RequisitionController
+RequisitionController --> RequisitionService
+RequisitionService --> ApprovalStatus
+RequisitionService --> Requisition
+RequisitionService --> RequisitionDetail
 
 @enduml

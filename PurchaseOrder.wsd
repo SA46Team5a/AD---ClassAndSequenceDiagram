@@ -1,4 +1,5 @@
 @startuml
+title "Store Clerk -> Purchase Order"
 actor StoreClerk
 boundary ItemCatalogueView
 boundary ConfirmReorderQuantityView

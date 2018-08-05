@@ -1,5 +1,5 @@
 @startuml
-
+title "Department Representative -> Maintain Collection Point"
 
 Class ChangeCollectionPointView <<Boundary>>{
 

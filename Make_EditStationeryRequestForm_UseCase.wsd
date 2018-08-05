@@ -1,5 +1,7 @@
 @startuml
 
+title "Employee -> Make/Edit Requisition Form"
+
 Class ViewStationeryCatalogue <<Boundary>> {   
     +SearchClick()
     +ValidateI()

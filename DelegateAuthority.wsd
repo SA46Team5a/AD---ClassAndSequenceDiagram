@@ -1,5 +1,8 @@
 
 @startuml
+
+title "Department Head -> Delegate Authority"
+
 actor DeptHead
 boundary DelegateAuthorityView
 control HomeController

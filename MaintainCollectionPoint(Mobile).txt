@@ -1,0 +1,18 @@
+@startuml
+
+title "Department Representative -> Maintain Collection Point (Mobile)"
+
+actor DepartmentRepresentative
+boundary UpdateLocationActivity
+control DepartmentApi
+control DepartmentService
+
+DepartmentRepresentative -> UpdateLocationActivity : select Collection point\n click Confirm
+activate UpdateLocationActivity
+UpdateLocationActivity -> DepartmentApi : setCollectionPointOfDepartment() 
+deactivate UpdateLocationActivity
+activate DepartmentApi
+DepartmentApi -> DepartmentService : updateCollectionPoint()
+deactivate DepartmentApi
+
+@enduml

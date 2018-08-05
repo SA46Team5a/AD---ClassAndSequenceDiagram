@@ -1,0 +1,18 @@
+@startuml
+
+title "Department Head -> Appoint Department Representative (Mobile)"
+
+actor DepartmentHead
+boundary AppointRepActivity
+control DepartmentApi
+control DepartmentService
+
+DepartmentHead -> AppointRepActivity : select Employee\n click Confirm
+activate AppointRepActivity
+AppointRepActivity -> DepartmentApi : addDepartmentRepresentative() 
+deactivate AppointRepActivity
+activate DepartmentApi
+DepartmentApi -> DepartmentService : updateDepartmentRepresentative()
+deactivate DepartmentApi
+
+@enduml

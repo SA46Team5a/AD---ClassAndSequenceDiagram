@@ -1,4 +1,5 @@
 @startuml
+title "Store Clerk -> Submit Invoice"
 actor StoreClerk
 boundary SubmitInvoiceView
 control HomeController

@@ -1,0 +1,27 @@
+@startuml
+
+title "Department Head -> Delegate Authority (Mobile)"
+
+actor DepartmentHead
+boundary DelegateAuthorityActivity
+control DepartmentApi
+control DepartmentService
+
+DepartmentHead -> DelegateAuthorityActivity : select employee, duration of authority\n click Confirm
+activate DelegateAuthorityActivity
+DelegateAuthorityActivity -> DepartmentApi : addNewAuthority() 
+deactivate DelegateAuthorityActivity
+activate DepartmentApi
+DepartmentApi -> DepartmentService : addAuthority()
+deactivate DepartmentApi
+activate DepartmentService
+DepartmentHead -> DelegateAuthorityActivity : click Rescind
+deactivate DepartmentService
+activate DelegateAuthorityActivity
+DelegateAuthorityActivity -> DepartmentApi : updateAuthority() 
+deactivate DelegateAuthorityActivity
+activate DepartmentApi
+DepartmentApi -> DepartmentService : updateAuthority()
+deactivate DepartmentApi
+
+@enduml

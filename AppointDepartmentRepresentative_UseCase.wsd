@@ -1,9 +1,9 @@
 @startuml
+title "Department Head -> Appoint Department Representative"
 
 Class AppointDepartmentRepresentative <<Boundary>>{
     +Submit()
     +Home()
-    +EmailNotification()
 }
 
 Class AppointDepartmentRepController <<Control>> {
@@ -64,7 +64,7 @@ Class Department <<Entities>> {
 }
 
 AppointDepartmentRepresentative --> AppointDepartmentRepController
-AppointDepartmentRepresentative --> EmailNotificationController
+AppointDepartmentRepController --> EmailNotificationController
 AppointDepartmentRepController --> DepartmentService
 DepartmentService --> Employee
 DepartmentService --> DepartmentRepresentative

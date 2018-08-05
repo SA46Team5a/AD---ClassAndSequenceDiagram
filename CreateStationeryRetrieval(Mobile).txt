@@ -1,0 +1,40 @@
+@startuml
+
+title "Store Clerk -> Create Stationery Retrieval (Mobile)"
+
+actor StoreClerk
+boundary StationeryRetrievalFormActivity
+boundary SubmitAdjustmentActivity
+control DisbursementApi
+control StockManagementApi
+control DisbursementService
+control StockManagementService
+
+StoreClerk -> StationeryRetrievalFormActivity : click Submit Adjustment
+activate StationeryRetrievalFormActivity
+StationeryRetrievalFormActivity -> DisbursementApi : getRetrievalForm()
+deactivate StationeryRetrievalFormActivity
+activate DisbursementApi
+DisbursementApi -> DisbursementService : getRetrievalForm()
+activate DisbursementService
+DisbursementApi -> SubmitAdjustmentActivity : displayRetrievalItems()
+deactivate DisbursementService
+deactivate DisbursementApi
+activate SubmitAdjustmentActivity
+StoreClerk -> SubmitAdjustmentActivity : click Submit
+SubmitAdjustmentActivity -> StockManagementApi : addStockVoucher()
+deactivate SubmitAdjustmentActivity
+activate StockManagementApi
+StockManagementApi -> StockManagementService : addStockVoucher()
+deactivate StockManagementApi
+activate StockManagementService
+StoreClerk -> StationeryRetrievalFormActivity : select checkboxes\n click Submit
+deactivate StockManagementService
+activate StationeryRetrievalFormActivity
+StationeryRetrievalFormActivity -> DisbursementApi : submitRetrievalFormOfDisbursementDuty()
+deactivate StationeryRetrievalFormActivity
+activate DisbursementApi
+DisbursementApi -> DisbursementService : submitRetrievalForm()
+deactivate DisbursementApi
+
+@enduml

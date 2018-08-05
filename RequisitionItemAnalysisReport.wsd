@@ -1,4 +1,5 @@
 @startuml
+title "Store Clerk -> Generate Requisition Item Analysis"
 actor StoreClerk
 boundary RequisitionItemAnalysisReportView
 control HomeController

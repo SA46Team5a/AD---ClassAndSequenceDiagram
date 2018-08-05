@@ -1,4 +1,5 @@
 @startuml
+title "Stock Clerk -> Generate Requisition Item Analysis"
 
 Class RequisitionItemAnalysisReport <<Boundary>>{
     +Generate()

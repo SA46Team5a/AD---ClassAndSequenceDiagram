@@ -1,0 +1,79 @@
+@startuml
+
+title "Employee -> View Request"
+
+actor Employee
+boundary SearchRequisitionForm
+boundary ViewStationeryRequestForm
+boundary ResubmitStationeryRequestForm
+control ViewPastRequestCtrl
+control RequisitionService
+entity Requisitions
+
+Employee -> SearchRequisitionForm : input search fields\n click Search
+activate SearchRequisitionForm
+SearchRequisitionForm -> ViewPastRequestCtrl : LoadSearchRequisitionForm()
+deactivate SearchRequisitionForm
+activate ViewPastRequestCtrl
+ViewPastRequestCtrl -> RequisitionService : getRequisitionsOfEmployee()
+deactivate ViewPastRequestCtrl
+activate RequisitionService
+RequisitionService -> Requisitions : getRequisitions()
+deactivate RequisitionService
+activate Requisitions
+Employee -> SearchRequisitionForm : click View
+deactivate Requisitions
+activate SearchRequisitionForm
+SearchRequisitionForm -> ViewPastRequestCtrl : ProcessedStationeryRequestForm()
+deactivate SearchRequisitionForm
+activate ViewPastRequestCtrl
+ViewPastRequestCtrl -> RequisitionService : getRequisitionsById()
+deactivate ViewPastRequestCtrl
+activate RequisitionService
+RequisitionService -> Requisitions : getRequisitions()
+deactivate RequisitionService
+activate Requisitions
+ViewPastRequestCtrl -> ViewStationeryRequestForm : displayRequisitionDeatils()
+deactivate Requisitions
+activate ViewStationeryRequestForm
+Employee -> ViewStationeryRequestForm : click Back
+ViewStationeryRequestForm -> ViewPastRequestCtrl : SearchRequisitionForm()
+deactivate ViewStationeryRequestForm
+activate ViewPastRequestCtrl
+ViewPastRequestCtrl -> RequisitionService : getRequisitionsOfEmployee()
+deactivate ViewPastRequestCtrl
+activate RequisitionService
+RequisitionService -> Requisitions : getRequisitions()
+deactivate RequisitionService
+activate Requisitions
+ViewPastRequestCtrl -> SearchRequisitionForm : displayRequisitions()
+deactivate Requisitions
+activate SearchRequisitionForm
+Employee -> SearchRequisitionForm : click Edit
+SearchRequisitionForm -> ViewPastRequestCtrl : EditSubmittedStationeryRequestForm()
+deactivate SearchRequisitionForm
+activate ViewPastRequestCtrl
+ViewPastRequestCtrl -> RequisitionService : getRequisitionById()
+deactivate ViewPastRequestCtrl
+activate RequisitionService
+RequisitionService -> Requisitions : getRequisition()
+deactivate RequisitionService
+activate Requisitions
+ViewPastRequestCtrl -> ResubmitStationeryRequestForm : displayRequisitionDetails()
+deactivate Requisitions
+activate ResubmitStationeryRequestForm
+Employee -> ResubmitStationeryRequestForm : refer to A: Edit Stationery Request Form
+note right: refer to A:\n Edit Stationery Request Form
+deactivate ResubmitStationeryRequestForm
+Employee -> SearchRequisitionForm : click Delete
+activate SearchRequisitionForm
+SearchRequisitionForm -> ViewPastRequestCtrl : DeleteRequisitionForm()
+deactivate SearchRequisitionForm
+activate ViewPastRequestCtrl
+ViewPastRequestCtrl -> RequisitionService : deleteRequisition()
+deactivate ViewPastRequestCtrl
+activate RequisitionService
+RequisitionService -> Requisitions : deleteRequisition()
+deactivate RequisitionService
+
+@enduml

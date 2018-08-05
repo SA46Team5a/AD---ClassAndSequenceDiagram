@@ -1,0 +1,89 @@
+@startuml
+
+title "Employee -> Make/Edit Statioinery Request Form"
+
+actor Employee
+boundary StationeryCatalogueView
+boundary StationeryRequestForm
+boundary Home
+control RequisitionCtrl
+control StockManagementService
+control RequisitionService
+entity Items
+entity Requisitions
+control EmailNotification
+
+Employee -> StationeryCatalogueView : Select Category\n click Search
+activate StationeryCatalogueView
+StationeryCatalogueView -> RequisitionCtrl : ViewStationeryCatalogue()
+deactivate StationeryCatalogueView
+activate RequisitionCtrl
+RequisitionCtrl -> StockManagementService : getItemOfCategory()
+deactivate RequisitionCtrl
+activate StockManagementService
+StockManagementService -> Items : getItems()
+deactivate StockManagementService
+activate Items
+RequisitionCtrl -> StationeryCatalogueView : displayItems()
+deactivate Items
+activate StationeryCatalogueView
+Employee -> StationeryCatalogueView : Input quantity\n click Add
+StationeryCatalogueView -> RequisitionCtrl : ViewStationeryCatalogue()
+deactivate StationeryCatalogueView
+activate RequisitionCtrl
+RequisitionCtrl -> RequisitionService : createNewRequisitionForEmployee()
+deactivate RequisitionCtrl
+activate RequisitionService
+RequisitionService -> Requisitions : createRequisition()
+deactivate RequisitionService
+activate Requisitions
+StationeryCatalogueView -> Employee : display Item successfully added
+deactivate Requisitions
+Employee -> StationeryCatalogueView : click Go to request form
+activate StationeryCatalogueView
+StationeryCatalogueView -> RequisitionCtrl : StationeryRequestForm()
+deactivate StationeryCatalogueView
+activate RequisitionCtrl
+RequisitionCtrl -> RequisitionService : getUnsubmittedRequisitionOfEmployee()
+deactivate RequisitionCtrl
+activate RequisitionService
+RequisitionService -> Requisitions : getRequisition()
+deactivate RequisitionService
+activate Requisitions
+RequisitionCtrl -> StationeryRequestForm : displayRequisitionDetails()
+deactivate Requisitions
+activate StationeryRequestForm
+Employee -> StationeryRequestForm : input changes\n click Save Changes
+note left: A: Edit Stationery\n Request Form
+StationeryRequestForm -> RequisitionCtrl : StationeryRequestForm()
+deactivate StationeryRequestForm
+activate RequisitionCtrl
+RequisitionCtrl -> RequisitionService : editRequisitionDetailQty()
+deactivate RequisitionCtrl
+activate RequisitionService
+RequisitionService -> Requisitions : updateRequisition()
+deactivate RequisitionService
+activate Requisitions
+StationeryRequestForm -> Employee : display changes\n successfully made
+deactivate Requisitions
+Employee -> StationeryRequestForm : click Submit\n for approval
+activate StationeryRequestForm
+StationeryRequestForm -> RequisitionCtrl : StationeryRequestForm()
+deactivate StationeryRequestForm
+activate RequisitionCtrl
+RequisitionCtrl -> RequisitionService : submitRequisition()
+deactivate RequisitionCtrl
+activate RequisitionService
+RequisitionService -> Requisitions : updateRequisition()
+deactivate RequisitionService
+activate Requisitions
+RequisitionCtrl -> EmailNotification : sendEmailToDeptHead()
+deactivate Requisitions
+activate EmailNotification
+RequisitionCtrl -> Home : Index()
+deactivate EmailNotification
+activate Home
+Home -> Employee : display Home page
+deactivate Home
+
+@enduml

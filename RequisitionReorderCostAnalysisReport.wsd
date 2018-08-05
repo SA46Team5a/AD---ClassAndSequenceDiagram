@@ -1,4 +1,5 @@
 @startuml
+title "Store Clerk -> Generate Reorder Cost Analysis"
 actor StoreClerk
 boundary RequisitionReorderAnalysisReportView
 control HomeController

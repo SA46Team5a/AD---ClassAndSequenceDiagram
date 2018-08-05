@@ -1,4 +1,5 @@
 @startuml
+title "Department Head -> Approve Request Form"
 
 Class ApproveRequisitionForm <<Boundary>>{
     +Approve()

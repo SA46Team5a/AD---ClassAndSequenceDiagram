@@ -1,4 +1,5 @@
 @startuml
+title "Stock Clerk -> Submit Invoice"
 
 Class SubmitInvoice <<Boundary>>{
  +Search()

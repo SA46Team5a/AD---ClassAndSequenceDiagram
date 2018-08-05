@@ -1,4 +1,5 @@
 @startuml
+title "Store Clerk -> Restock Inventory (Mobile)"
 actor StoreClerk
 boundary RestockInventoryActivity
 control OrderAPI

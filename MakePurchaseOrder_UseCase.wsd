@@ -1,4 +1,6 @@
 @startuml
+title "Stock Clerk -> Make Purchase Order"
+
 Class ItemCatalogue <<Boundary>>{
 
     +Search()

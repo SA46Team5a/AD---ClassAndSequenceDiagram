@@ -1,11 +1,12 @@
 @startuml
+title "Department Head -> Delegate Authority"
 
 Class DelegateAuthority <<Boundary>>{
 
     +Submit()
     +Home()
     +Rescind()
-    +EmailNotification()
+
 }
 Class DelegateAuthorityController <<Control>> {
     
@@ -64,7 +65,7 @@ Class Employee <<Entities>> {
 +strign: Sex
 }
 DelegateAuthority --> DelegateAuthorityController
-DelegateAuthority --> EmailNotificationController
+DelegateAuthorityController --> EmailNotificationController
 DelegateAuthorityController --> DepartmentService
 DepartmentService --> Authority
 DepartmentService --> Employee

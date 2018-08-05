@@ -1,0 +1,29 @@
+@startuml
+
+title "Department Head -> Approve Requisition Form (Mobile)"
+
+actor DepartmentHead
+boundary ApproveRequisitionFormActivity
+control RequisitionApi
+control RequisitionService
+
+DepartmentHead -> ApproveRequisitionFormActivity : click Approve
+activate ApproveRequisitionFormActivity
+ApproveRequisitionFormActivity -> RequisitionApi : approveRequisition() 
+deactivate ApproveRequisitionFormActivity
+activate RequisitionApi
+RequisitionApi -> RequisitionService : processRequisition()
+deactivate RequisitionApi
+activate RequisitionService
+DepartmentHead -> ApproveRequisitionFormActivity : click Reject
+deactivate RequisitionService
+activate ApproveRequisitionFormActivity
+ApproveRequisitionFormActivity -> RequisitionApi : rejectRequisition() 
+deactivate ApproveRequisitionFormActivity
+activate RequisitionApi
+RequisitionApi -> RequisitionService : processRequisition()
+deactivate RequisitionApi
+activate RequisitionService
+deactivate RequisitionService
+
+@enduml
